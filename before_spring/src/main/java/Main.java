@@ -1,11 +1,12 @@
 import java.sql.SQLException;
+import user.dao.DaoFactory;
 import user.dao.NConnectionMaker;
 import user.dao.UserDao;
 import user.domain.User;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDao dao = new UserDao(new NConnectionMaker());
+        UserDao dao = new DaoFactory().userDao();
 
         User user = new User();
         user.setId("eora21");
