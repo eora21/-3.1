@@ -18,14 +18,12 @@ import user.domain.User;
 public class UserDaoTest {
     @Autowired
     ApplicationContext context;
+    @Autowired
     UserDao dao;
 
     @BeforeEach
     void beforeEach() throws SQLException {
-        dao = context.getBean("userDao", UserDao.class);
         dao.deleteAll();
-        System.out.println(context);
-        System.out.println(this);
     }
 
     @Test
