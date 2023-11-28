@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import org.springframework.dao.EmptyResultDataAccessException;
 import user.domain.User;
 
 public class UserDao {
@@ -40,7 +41,10 @@ public class UserDao {
         ps.setString(1, id);
 
         ResultSet rs = ps.executeQuery();
-        rs.next();
+
+        if (!rs.next()) {
+            throw new EmptyResultDataAccessException(1);
+        }
 
         User user = new User();
         user.setId(rs.getString("id"));
