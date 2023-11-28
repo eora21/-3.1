@@ -4,19 +4,28 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import user.dao.UserDao;
 import user.domain.User;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class UserDaoTest {
-    ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-    UserDao dao = context.getBean("userDao", UserDao.class);
+    @Autowired
+    ApplicationContext context;
+    UserDao dao;
 
     @BeforeEach
     void beforeEach() throws SQLException {
+        dao = context.getBean("userDao", UserDao.class);
         dao.deleteAll();
+        System.out.println(context);
+        System.out.println(this);
     }
 
     @Test
