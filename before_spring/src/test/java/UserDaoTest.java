@@ -18,8 +18,7 @@ import user.dao.UserDao;
 import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
-@DirtiesContext
+@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
 public class UserDaoTest {
     @Autowired
     ApplicationContext context;
@@ -29,9 +28,6 @@ public class UserDaoTest {
 
     @BeforeEach
     void beforeEach() throws SQLException {
-        DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/toby_spring",
-                Info.MYSQL_ID.getValue(), Info.MYSQL_PASSWORD.getValue(), true);
-        dao.setDataSource(dataSource);
         dao.deleteAll();
     }
 
