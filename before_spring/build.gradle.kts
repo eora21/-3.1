@@ -14,6 +14,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("org.springframework:spring-context:6.1.1")
+    implementation("org.springframework:spring-jdbc:6.1.1")
 }
 
 tasks.test {
