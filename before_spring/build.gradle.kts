@@ -16,6 +16,7 @@ dependencies {
     implementation("org.springframework:spring-context:6.1.1")
     implementation("org.springframework:spring-jdbc:6.1.1")
     implementation("org.assertj:assertj-core:3.24.2")
+    implementation("org.springframework:spring-test:6.1.1")
 }
 
 tasks.test {
