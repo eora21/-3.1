@@ -1,22 +1,29 @@
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.sql.SQLException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import user.dao.UserDao;
 import user.domain.User;
 
 public class UserDaoTest {
+    ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
+    UserDao dao = context.getBean("userDao", UserDao.class);
+
+    @BeforeEach
+    void beforeEach() throws SQLException {
+        dao.deleteAll();
+    }
+
     @Test
     void addAndGet() throws SQLException, ClassNotFoundException {
-        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-        UserDao dao = context.getBean("userDao", UserDao.class);
-
         User userA = new User("A", "에이", "PA");
         User userB = new User("B", "비", "PB");
 
-        dao.deleteAll();
         assertThat(dao.getCount()).isZero();
 
         dao.add(userA);
@@ -34,9 +41,6 @@ public class UserDaoTest {
 
     @Test
     void count() throws SQLException {
-        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-        UserDao dao = context.getBean("userDao", UserDao.class);
-
         User userA = new User("A", "에이", "PA");
         User userB = new User("B", "비", "PB");
         User userC = new User("C", "씨", "PC");
@@ -52,5 +56,11 @@ public class UserDaoTest {
 
         dao.add(userC);
         assertThat(dao.getCount()).isEqualTo(3);
+    }
+
+    @Test
+    void getUserFailure() {
+        assertThatThrownBy(() -> dao.get("unknownId"))
+                .isExactlyInstanceOf(EmptyResultDataAccessException.class);
     }
 }
