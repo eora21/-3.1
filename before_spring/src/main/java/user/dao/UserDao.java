@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
+import user.dao.statement.DeleteAllStatement;
+import user.dao.statement.StatementStrategy;
 import user.domain.User;
 
 public class UserDao {
