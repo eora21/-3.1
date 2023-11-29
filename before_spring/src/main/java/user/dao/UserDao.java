@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
+import user.dao.statement.AddStatement;
 import user.dao.statement.DeleteAllStatement;
 import user.dao.statement.StatementStrategy;
 import user.domain.User;
@@ -18,12 +19,12 @@ public class UserDao {
     }
 
     public void add(User user) throws SQLException {
-        try (Connection c = dataSource.getConnection();
-             PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values (?,?,?)")) {
+        jdbcContextWithStatementStrategy(new AddStatement(user));
+    }
 
-            ps.setString(1, user.getId());
-            ps.setString(2, user.getName());
-            ps.setString(3, user.getPassword());
+    public void jdbcContextWithStatementStrategy(StatementStrategy strategy) throws SQLException {
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = strategy.makePreparedStatement(c)) {
 
             ps.executeUpdate();
         }
@@ -51,14 +52,6 @@ public class UserDao {
 
     public void deleteAll() throws SQLException {
         jdbcContextWithStatementStrategy(new DeleteAllStatement());
-    }
-
-    public void jdbcContextWithStatementStrategy(StatementStrategy strategy) throws SQLException {
-        try (Connection c = dataSource.getConnection();
-             PreparedStatement ps = strategy.makePreparedStatement(c)) {
-
-            ps.executeUpdate();
-        }
     }
 
     public int getCount() throws SQLException {
