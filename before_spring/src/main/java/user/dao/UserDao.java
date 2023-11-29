@@ -16,69 +16,52 @@ public class UserDao {
     }
 
     public void add(User user) throws SQLException {
-        Connection c = dataSource.getConnection();
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values (?,?,?)")) {
 
-        PreparedStatement ps = c.prepareStatement(
-                "insert into users(id, name, password) values (?,?,?)");
+            ps.setString(1, user.getId());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getPassword());
 
-        ps.setString(1, user.getId());
-        ps.setString(2, user.getName());
-        ps.setString(3, user.getPassword());
-
-        ps.executeUpdate();
-
-        ps.close();
-        c.close();
+            ps.executeUpdate();
+        }
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = dataSource.getConnection();
+    public User get(String id) throws SQLException {
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = c.prepareStatement("select * from users where id = ?")){
+            ps.setString(1, id);
 
-        PreparedStatement ps = c.prepareStatement(
-                "select * from users where id = ?");
-        ps.setString(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new EmptyResultDataAccessException(1);
+                }
 
-        ResultSet rs = ps.executeQuery();
+                User user = new User();
+                user.setId(rs.getString("id"));
+                user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
 
-        if (!rs.next()) {
-            throw new EmptyResultDataAccessException(1);
+                return user;
+            }
         }
-
-        User user = new User();
-        user.setId(rs.getString("id"));
-        user.setName(rs.getString("name"));
-        user.setPassword(rs.getString("password"));
-
-        rs.close();
-        ps.close();
-        c.close();
-
-        return user;
     }
 
     public void deleteAll() throws SQLException {
-        Connection c = dataSource.getConnection();
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = c.prepareStatement("delete from users")) {
 
-        PreparedStatement ps = c.prepareStatement("delete from users");
-        ps.executeUpdate();
-
-        ps.close();
-        c.close();
+            ps.executeUpdate();
+        }
     }
 
     public int getCount() throws SQLException {
-        Connection c = dataSource.getConnection();
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = c.prepareStatement("select count(*) from users");
+             ResultSet rs = ps.executeQuery()) {
 
-        PreparedStatement ps = c.prepareStatement("select count(*) from users");
-
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        int count = rs.getInt(1);
-
-        rs.close();
-        ps.close();
-        c.close();
-
-        return count;
+            rs.next();
+            return rs.getInt(1);
+        }
     }
 }
