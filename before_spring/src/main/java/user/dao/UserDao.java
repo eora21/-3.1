@@ -31,8 +31,6 @@ public class UserDao {
         c.close();
     }
 
-
-
     public User get(String id) throws ClassNotFoundException, SQLException {
         Connection c = dataSource.getConnection();
 
