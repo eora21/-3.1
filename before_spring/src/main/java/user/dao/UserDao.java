@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import user.domain.User;
 
-public abstract class UserDao {
+public class UserDao {
     private DataSource dataSource;
 
     public void setDataSource(DataSource dataSource) {
@@ -49,13 +49,11 @@ public abstract class UserDao {
 
     public void deleteAll() throws SQLException {
         try (Connection c = dataSource.getConnection();
-             PreparedStatement ps = makeStatement(c)) {
+             PreparedStatement ps = new DeleteAllStatement().makePreparedStatement(c)) {
 
             ps.executeUpdate();
         }
     }
-
-    protected abstract PreparedStatement makeStatement(Connection c) throws SQLException;
 
     public int getCount() throws SQLException {
         try (Connection c = dataSource.getConnection();
