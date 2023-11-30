@@ -1,4 +1,4 @@
-package learningteset.template;
+package learningtest.template;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

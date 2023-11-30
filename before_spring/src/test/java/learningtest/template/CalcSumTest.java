@@ -7,7 +7,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import learningteset.template.Calculator;
 import org.junit.jupiter.api.Test;
 
 public class CalcSumTest {
