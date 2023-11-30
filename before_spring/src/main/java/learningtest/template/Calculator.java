@@ -18,6 +18,19 @@ public class Calculator {
         });
     }
 
+    public int calcMultiply(String filePath) throws IOException {
+        return fileReadTemplate(filePath, (BufferedReader bufferedReader) -> {
+            int multiply = 1;
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                multiply *= Integer.parseInt(line);
+            }
+
+            return multiply;
+        });
+    }
+
     public int fileReadTemplate(String filePath, BufferedReaderCallback callback) throws IOException {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
             return callback.doSomethingWithReader(bufferedReader);
