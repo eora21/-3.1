@@ -36,4 +36,17 @@ public class Calculator {
             return callback.doSomethingWithReader(bufferedReader);
         }
     }
+
+    public int lineReadTemplate(String filePath, LineCallback lineCallback, int initVal) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            int result = initVal;
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                result = lineCallback.doSomethingWithLine(line, result);
+            }
+
+            return result;
+        }
+    }
 }
