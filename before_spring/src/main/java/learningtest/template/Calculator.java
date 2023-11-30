@@ -6,29 +6,11 @@ import java.io.IOException;
 
 public class Calculator {
     public int calcSum(String filePath) throws IOException {
-        return fileReadTemplate(filePath, (BufferedReader bufferedReader) -> {
-            int sum = 0;
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                sum += Integer.parseInt(line);
-            }
-
-            return sum;
-        });
+        return lineReadTemplate(filePath, (String line, int result) -> Integer.parseInt(line) + result, 0);
     }
 
     public int calcMultiply(String filePath) throws IOException {
-        return fileReadTemplate(filePath, (BufferedReader bufferedReader) -> {
-            int multiply = 1;
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                multiply *= Integer.parseInt(line);
-            }
-
-            return multiply;
-        });
+        return lineReadTemplate(filePath, (String line, int result) -> Integer.parseInt(line) * result, 1);
     }
 
     public int fileReadTemplate(String filePath, BufferedReaderCallback callback) throws IOException {
