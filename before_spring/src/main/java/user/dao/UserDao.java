@@ -6,12 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
-import user.dao.statement.StatementStrategy;
+import org.springframework.jdbc.core.JdbcTemplate;
 import user.domain.User;
 
 public class UserDao {
     private DataSource dataSource;
     private JdbcContext jdbcContext;
+    private JdbcTemplate jdbcTemplate;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -19,6 +20,11 @@ public class UserDao {
 
     public void setJdbcContext(JdbcContext jdbcContext) {
         this.jdbcContext = jdbcContext;
+    }
+
+    public void setJdbcTemplate(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public void add(User user) throws SQLException {
@@ -54,7 +60,7 @@ public class UserDao {
     }
 
     public void deleteAll() throws SQLException {
-        jdbcContext.executeSql("delete from users");
+        jdbcTemplate.update((Connection con) -> con.prepareStatement("delete from users"));
     }
 
     public int getCount() throws SQLException {
