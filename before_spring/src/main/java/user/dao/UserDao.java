@@ -11,15 +11,10 @@ import user.domain.User;
 
 public class UserDao {
     private DataSource dataSource;
-    private JdbcContext jdbcContext;
     private JdbcTemplate jdbcTemplate;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    public void setJdbcContext(JdbcContext jdbcContext) {
-        this.jdbcContext = jdbcContext;
     }
 
     public void setJdbcTemplate(DataSource dataSource) {
