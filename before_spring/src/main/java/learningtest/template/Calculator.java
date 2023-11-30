@@ -13,6 +13,10 @@ public class Calculator {
         return lineReadTemplate(filePath, (String line, Integer result) -> Integer.parseInt(line) * result, 1);
     }
 
+    public String concatenate(String filePath) throws IOException {
+        return lineReadTemplate(filePath, (String line, String result) -> result + line, "");
+    }
+
     public int fileReadTemplate(String filePath, BufferedReaderCallback callback) throws IOException {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
             return callback.doSomethingWithReader(bufferedReader);
