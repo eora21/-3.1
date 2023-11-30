@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
+import user.dao.statement.StatementStrategy;
 import user.domain.User;
 
 public class UserDao {
@@ -53,7 +54,11 @@ public class UserDao {
     }
 
     public void deleteAll() throws SQLException {
-        jdbcContext.workWithStatementStrategy(c -> c.prepareStatement("delete from users"));
+        jdbcContext.workWithStatementStrategy(executeSql("delete from users"));
+    }
+
+    private StatementStrategy executeSql(final String query) {
+        return (Connection c) -> c.prepareStatement(query);
     }
 
     public int getCount() throws SQLException {
