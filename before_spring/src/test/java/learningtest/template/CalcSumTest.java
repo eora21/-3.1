@@ -10,12 +10,17 @@ import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
 public class CalcSumTest {
+    Calculator calculator = new Calculator();
+    URL resource = getClass().getResource("/numbers.txt");
+    String path = URLDecoder.decode(Objects.requireNonNull(resource).getPath(), StandardCharsets.UTF_8);
+
     @Test
     void sumOfNumbers() throws IOException {
-        Calculator calculator = new Calculator();
-        URL resource = getClass().getResource("/numbers.txt");
-        String path = URLDecoder.decode(Objects.requireNonNull(resource).getPath(), StandardCharsets.UTF_8);
-        int calcSum = calculator.calcSum(path);
-        assertThat(calcSum).isEqualTo(10);
+        assertThat(calculator.calcSum(path)).isEqualTo(10);
+    }
+
+    @Test
+    void multiplyOfNumbers() throws IOException {
+        assertThat(calculator.calcMultiply(path)).isEqualTo(24);
     }
 }
