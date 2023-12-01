@@ -1,6 +1,9 @@
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -9,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -108,5 +113,13 @@ public class UserDaoJdbcTest {
                 () -> assertThat(firstUser.getName()).isEqualTo(secondUser.getName()),
                 () -> assertThat(firstUser.getPassword()).isEqualTo(secondUser.getPassword())
         );
+    }
+
+    @Test
+    void duplicateKey() {
+        User userA = new User("A", "에이", "PA");
+        assertDoesNotThrow(() -> dao.add(userA));
+        assertThrows(DataAccessException.class, () -> dao.add(userA));
+        assertThrowsExactly(DuplicateKeyException.class, () -> dao.add(userA));
     }
 }
