@@ -1,5 +1,7 @@
 package user.domain;
 
+import java.util.Objects;
+
 public class User {
     private String id;
     private String name;
@@ -18,6 +20,16 @@ public class User {
     }
 
     public User() {
+    }
+
+    public void upgradeLevel() {
+        Level nextLevel = getLevel().nextLevel();
+
+        if (Objects.isNull(nextLevel)) {
+            throw new IllegalStateException(getLevel() + "은 업그레이드가 불가능합니다.");
+        }
+
+        setLevel(nextLevel);
     }
 
     public String getId() {
