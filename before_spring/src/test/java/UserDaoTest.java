@@ -25,7 +25,7 @@ import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "classpath:testApplicationContext.xml")
-public class UserDaoJdbcTest {
+public class UserDaoTest {
     @Autowired
     ApplicationContext context;
 
