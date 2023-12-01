@@ -14,7 +14,6 @@ import user.domain.User;
 
 public class UserService {
     private final Map<Level, Predicate<User>> levelUpConditions = writeCondition();
-    private final Map<Level, Level> nextLevelInfo = writeNextLevel();
 
     UserDao userDao;
 
@@ -32,16 +31,6 @@ public class UserService {
         return conditions;
     }
 
-    private Map<Level, Level> writeNextLevel() {
-        Map<Level, Level> nextLevel = new EnumMap<>(Level.class);
-        nextLevel.put(BASIC, SILVER);
-        nextLevel.put(SILVER, GOLD);
-        nextLevel.put(GOLD, GOLD);
-
-        assert nextLevel.size() == Level.values().length;
-        return nextLevel;
-    }
-
     public void upgradeLevels() {
         userDao.getAll().stream()
                 .filter(this::canLevelUp)
@@ -54,8 +43,7 @@ public class UserService {
     }
 
     private void levelUp(User user) {
-        Level nextLevel = nextLevelInfo.get(user.getLevel());
-        user.setLevel(nextLevel);
+        user.upgradeLevel();
         userDao.update(user);
     }
 
