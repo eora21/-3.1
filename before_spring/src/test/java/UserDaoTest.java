@@ -80,7 +80,8 @@ public class UserDaoTest {
         User userB = new User("B", "비", "PB");
         User userC = new User("C", "씨", "PC");
 
-        List<User> users;
+        List<User> users = dao.getAll();
+        assertThat(users).isEmpty();
 
         dao.add(userB);
         users = dao.getAll();
