@@ -21,6 +21,7 @@ import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import user.dao.UserDao;
+import user.domain.Level;
 import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
@@ -40,11 +41,12 @@ public class UserDaoTest {
         dao.deleteAll();
     }
 
+    User userA = new User("A", "에이", "PA", Level.BASIC, 1, 0);
+    User userB = new User("B", "비", "PB", Level.SILVER, 55, 10);
+    User userC = new User("C", "씨", "PC", Level.GOLD, 100, 40);
+
     @Test
     void addAndGet() throws SQLException, ClassNotFoundException {
-        User userA = new User("A", "에이", "PA");
-        User userB = new User("B", "비", "PB");
-
         assertThat(dao.getCount()).isZero();
 
         dao.add(userA);
@@ -52,20 +54,14 @@ public class UserDaoTest {
         assertThat(dao.getCount()).isEqualTo(2);
 
         User getUserA = dao.get(userA.getId());
-        assertThat(userA.getName()).isEqualTo(getUserA.getName());
-        assertThat(userA.getPassword()).isEqualTo(getUserA.getPassword());
+        checkSameUser(userA, getUserA);
 
         User getUserB = dao.get(userB.getId());
-        assertThat(userB.getName()).isEqualTo(getUserB.getName());
-        assertThat(userB.getPassword()).isEqualTo(getUserB.getPassword());
+        checkSameUser(userB, getUserB);
     }
 
     @Test
     void count() throws SQLException {
-        User userA = new User("A", "에이", "PA");
-        User userB = new User("B", "비", "PB");
-        User userC = new User("C", "씨", "PC");
-
         dao.deleteAll();
         assertThat(dao.getCount()).isZero();
 
@@ -87,10 +83,6 @@ public class UserDaoTest {
 
     @Test
     void getAll() {
-        User userA = new User("A", "에이", "PA");
-        User userB = new User("B", "비", "PB");
-        User userC = new User("C", "씨", "PC");
-
         List<User> users = dao.getAll();
         assertThat(users).isEmpty();
 
@@ -117,13 +109,15 @@ public class UserDaoTest {
         assertAll(
                 () -> assertThat(firstUser.getId()).isEqualTo(secondUser.getId()),
                 () -> assertThat(firstUser.getName()).isEqualTo(secondUser.getName()),
-                () -> assertThat(firstUser.getPassword()).isEqualTo(secondUser.getPassword())
+                () -> assertThat(firstUser.getPassword()).isEqualTo(secondUser.getPassword()),
+                () -> assertThat(firstUser.getLevel()).isEqualTo(secondUser.getLevel()),
+                () -> assertThat(firstUser.getLogin()).isEqualTo(secondUser.getLogin()),
+                () -> assertThat(firstUser.getRecommend()).isEqualTo(secondUser.getRecommend())
         );
     }
 
     @Test
     void duplicateKey() {
-        User userA = new User("A", "에이", "PA");
         assertDoesNotThrow(() -> dao.add(userA));
         assertThrows(DataAccessException.class, () -> dao.add(userA));
         assertThrowsExactly(DuplicateKeyException.class, () -> dao.add(userA));
@@ -131,7 +125,6 @@ public class UserDaoTest {
 
     @Test
     void sqlExceptionTranslate() {
-        User userA = new User("A", "에이", "PA");
         try {
             dao.add(userA);
             dao.add(userA);
