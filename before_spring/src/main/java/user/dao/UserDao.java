@@ -27,24 +27,17 @@ public class UserDao {
                 user.getId(), user.getName(), user.getPassword());
     }
 
-    public User get(String id) throws SQLException {
-        try (Connection c = dataSource.getConnection();
-             PreparedStatement ps = c.prepareStatement("select * from users where id = ?")){
-            ps.setString(1, id);
+    public User get(String id) {
+        return jdbcTemplate.queryForObject("select * from users where id = ?", new Object[] {id},
+                (ResultSet rs, int rowNum) -> {
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) {
-                    throw new EmptyResultDataAccessException(1);
-                }
+            User user = new User();
+            user.setId(rs.getString("id"));
+            user.setName(rs.getString("name"));
+            user.setPassword(rs.getString("password"));
 
-                User user = new User();
-                user.setId(rs.getString("id"));
-                user.setName(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-
-                return user;
-            }
-        }
+            return user;
+        });
     }
 
     public void deleteAll() {
