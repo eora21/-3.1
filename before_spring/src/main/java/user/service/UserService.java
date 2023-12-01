@@ -13,6 +13,8 @@ import user.domain.Level;
 import user.domain.User;
 
 public class UserService {
+    public static final int MIN_LOGIN_COUNT_FOR_SILVER = 50;
+    public static final int MIN_RECOMMEND_COUNT_FOR_GOLD = 30;
     private final Map<Level, Predicate<User>> levelUpConditions = writeCondition();
 
     UserDao userDao;
@@ -23,8 +25,8 @@ public class UserService {
 
     private Map<Level, Predicate<User>> writeCondition() {
         Map<Level, Predicate<User>> conditions = new EnumMap<>(Level.class);
-        conditions.put(BASIC, user -> user.getLogin() >= 50);
-        conditions.put(SILVER, user -> user.getRecommend() >= 30);
+        conditions.put(BASIC, user -> user.getLogin() >= MIN_LOGIN_COUNT_FOR_SILVER);
+        conditions.put(SILVER, user -> user.getRecommend() >= MIN_RECOMMEND_COUNT_FOR_GOLD);
         conditions.put(GOLD, user -> false);
 
         assert conditions.size() == Level.values().length;
