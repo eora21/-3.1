@@ -32,11 +32,11 @@ class UserServiceTest {
     @BeforeEach
     void setUp() {
         userDao.deleteAll();
-        users.forEach(userDao::add);
     }
 
     @Test
     void upgradeLevels() {
+        users.forEach(userDao::add);
         userService.upgradeLevels();
 
         checkLevel(users.get(0), Level.BASIC);
@@ -49,5 +49,21 @@ class UserServiceTest {
     private void checkLevel(User user, Level level) {
         User userUpdate = userDao.get(user.getId());
         assertThat(userUpdate.getLevel()).isEqualByComparingTo(level);
+    }
+
+    @Test
+    void add() {
+        User userWithLevel = users.get(4);
+        User userWithoutLevel = users.get(0);
+        userWithoutLevel.setLevel(null);
+
+        userService.add(userWithLevel);
+        userService.add(userWithoutLevel);
+
+        User userWithLevelRead = userDao.get(userWithLevel.getId());
+        User userWithoutLevelRead = userDao.get(userWithoutLevel.getId());
+
+        assertThat(userWithLevelRead.getLevel()).isEqualByComparingTo(Level.GOLD);
+        assertThat(userWithoutLevelRead.getLevel()).isEqualByComparingTo(Level.BASIC);
     }
 }
