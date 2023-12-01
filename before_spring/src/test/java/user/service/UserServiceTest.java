@@ -39,16 +39,24 @@ class UserServiceTest {
         users.forEach(userDao::add);
         userService.upgradeLevels();
 
-        checkLevel(users.get(0), Level.BASIC);
-        checkLevel(users.get(1), Level.SILVER);
-        checkLevel(users.get(2), Level.SILVER);
-        checkLevel(users.get(3), Level.GOLD);
-        checkLevel(users.get(4), Level.GOLD);
+        checkLevel(users.get(0), false);
+        checkLevel(users.get(1), true);
+        checkLevel(users.get(2), false);
+        checkLevel(users.get(3), true);
+        checkLevel(users.get(4), false);
     }
 
-    private void checkLevel(User user, Level level) {
+    private void checkLevel(User user, boolean upgraded) {
+        Level userLevel = user.getLevel();
         User userUpdate = userDao.get(user.getId());
-        assertThat(userUpdate.getLevel()).isEqualByComparingTo(level);
+        Level updateLevel = userUpdate.getLevel();
+
+        if (upgraded) {
+            assertThat(updateLevel).isEqualByComparingTo(userLevel.nextLevel());
+            return;
+        }
+
+        assertThat(updateLevel).isEqualByComparingTo(userLevel);
     }
 
     @Test
