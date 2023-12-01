@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,5 +47,16 @@ public class UserDao {
 
     public int getCount() {
         return jdbcTemplate.queryForObject("select count(*) from users", int.class);
+    }
+
+    public List<User> getAll() {
+        return jdbcTemplate.query("select * from users order by id", (ResultSet rs, int rowNum) -> {
+            User user = new User();
+            user.setId(rs.getString("id"));
+            user.setName(rs.getString("name"));
+            user.setPassword(rs.getString("password"));
+
+            return user;
+        });
     }
 }
