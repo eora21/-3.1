@@ -19,4 +19,8 @@ public enum Level {
                 .findAny()
                 .orElseThrow(() -> new AssertionError("Unknown Value: " + value));
     }
+
+    public int intValue() {
+        return value;
+    }
 }
