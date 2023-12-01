@@ -1,6 +1,9 @@
 package user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+import static user.service.UserService.MIN_LOGIN_COUNT_FOR_SILVER;
+import static user.service.UserService.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,11 +25,11 @@ class UserServiceTest {
     UserDao userDao;
 
     List<User> users = List.of(
-            new User("basic", "브론즈", "password", Level.BASIC, 49, 0),
-            new User("toSilver", "브론즈-실버", "password", Level.BASIC, 50, 0),
-            new User("silver", "실버", "password", Level.SILVER, 60, 29),
-            new User("toGold", "실버-골드", "password", Level.SILVER, 60, 30),
-            new User("gold", "골드", "password", Level.GOLD, 100, 100)
+            new User("basic", "브론즈", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER - 1, 0),
+            new User("toSilver", "브론즈-실버", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER, 0),
+            new User("silver", "실버", "password", Level.SILVER, 60, MIN_RECOMMEND_COUNT_FOR_GOLD - 1),
+            new User("toGold", "실버-골드", "password", Level.SILVER, 60, MIN_RECOMMEND_COUNT_FOR_GOLD),
+            new User("gold", "골드", "password", Level.GOLD, 100, Integer.MAX_VALUE)
     );;
 
     @BeforeEach
