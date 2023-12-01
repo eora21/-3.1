@@ -6,6 +6,7 @@ import static user.domain.Level.SILVER;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import user.dao.UserDao;
 import user.domain.Level;
@@ -56,5 +57,13 @@ public class UserService {
         Level nextLevel = nextLevelInfo.get(user.getLevel());
         user.setLevel(nextLevel);
         userDao.update(user);
+    }
+
+    public void add(User user) {
+        if (Objects.isNull(user.getLevel())) {
+            user.setLevel(BASIC);
+        }
+
+        userDao.add(user);
     }
 }
