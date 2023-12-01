@@ -16,4 +16,8 @@
     <bean id="userDao" class="user.dao.UserDaoJdbc">
         <property name="jdbcTemplate" ref="dataSource"/>
     </bean>
+
+    <bean id="userService" class="user.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
 </beans>
