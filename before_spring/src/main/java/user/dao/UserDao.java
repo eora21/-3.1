@@ -4,9 +4,19 @@ import java.sql.ResultSet;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import user.domain.User;
 
 public class UserDao {
+    private final RowMapper<User> userMapper = (ResultSet rs, int rowNum) -> {
+        User user = new User();
+        user.setId(rs.getString("id"));
+        user.setName(rs.getString("name"));
+        user.setPassword(rs.getString("password"));
+
+        return user;
+    };
+
     private JdbcTemplate jdbcTemplate;
 
     public void setJdbcTemplate(DataSource dataSource) {
@@ -19,16 +29,7 @@ public class UserDao {
     }
 
     public User get(String id) {
-        return jdbcTemplate.queryForObject("select * from users where id = ?", new Object[] {id},
-                (ResultSet rs, int rowNum) -> {
-
-            User user = new User();
-            user.setId(rs.getString("id"));
-            user.setName(rs.getString("name"));
-            user.setPassword(rs.getString("password"));
-
-            return user;
-        });
+        return jdbcTemplate.queryForObject("select * from users where id = ?", new Object[] {id}, userMapper);
     }
 
     public void deleteAll() {
@@ -40,13 +41,6 @@ public class UserDao {
     }
 
     public List<User> getAll() {
-        return jdbcTemplate.query("select * from users order by id", (ResultSet rs, int rowNum) -> {
-            User user = new User();
-            user.setId(rs.getString("id"));
-            user.setName(rs.getString("name"));
-            user.setPassword(rs.getString("password"));
-
-            return user;
-        });
+        return jdbcTemplate.query("select * from users order by id", userMapper);
     }
 }
