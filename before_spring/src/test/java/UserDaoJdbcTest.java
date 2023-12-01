@@ -12,17 +12,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import user.dao.UserDao;
+import user.dao.UserDaoJdbc;
 import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "classpath:testApplicationContext.xml")
-public class UserDaoTest {
+public class UserDaoJdbcTest {
     @Autowired
     ApplicationContext context;
 
     @Autowired
-    UserDao dao;
+    UserDaoJdbc dao;
 
     @BeforeEach
     void beforeEach() throws SQLException {

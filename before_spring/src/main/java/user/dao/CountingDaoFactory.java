@@ -9,11 +9,11 @@ import user.dao.connection.NConnectionMaker;
 @Configuration
 public class CountingDaoFactory {
     @Bean
-    public UserDao userDao() {
-        UserDao userDao = new UserDao();
+    public UserDaoJdbc userDao() {
+        UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
 //        ConnectionMaker connectionMaker = connectionMaker();
 //        userDao.setConnectionMaker(connectionMaker);
-        return userDao;
+        return userDaoJdbc;
     }
 
     @Bean

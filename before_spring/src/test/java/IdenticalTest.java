@@ -2,14 +2,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import user.dao.DaoFactory;
-import user.dao.UserDao;
+import user.dao.UserDaoJdbc;
 
 public class IdenticalTest {
     @Test
     void daoFactoryIdenticalTest() {
         DaoFactory factory = new DaoFactory();
-        UserDao dao1 = factory.userDao();
-        UserDao dao2 = factory.userDao();
+        UserDaoJdbc dao1 = factory.userDao();
+        UserDaoJdbc dao2 = factory.userDao();
 
         System.out.println(dao1);
         System.out.println(dao2);
@@ -19,8 +19,8 @@ public class IdenticalTest {
     @Test
     void SpringContextBeanIdenticalTest() {
         ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-        UserDao dao1 = context.getBean("userDao", UserDao.class);
-        UserDao dao2 = context.getBean("userDao", UserDao.class);
+        UserDaoJdbc dao1 = context.getBean("userDao", UserDaoJdbc.class);
+        UserDaoJdbc dao2 = context.getBean("userDao", UserDaoJdbc.class);
 
         System.out.println(dao1);
         System.out.println(dao2);

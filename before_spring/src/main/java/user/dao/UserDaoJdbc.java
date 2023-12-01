@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import user.domain.User;
 
-public class UserDao {
+public class UserDaoJdbc {
     private final RowMapper<User> userMapper = (ResultSet rs, int rowNum) -> {
         User user = new User();
         user.setId(rs.getString("id"));

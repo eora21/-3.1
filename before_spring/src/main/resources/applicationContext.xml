@@ -13,7 +13,7 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean id="userDao" class="user.dao.UserDao">
+    <bean id="userDaoJdbc" class="user.dao.UserDaoJdbc">
         <property name="jdbcTemplate" ref="dataSource"/>
     </bean>
 </beans>
