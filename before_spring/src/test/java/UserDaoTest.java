@@ -138,6 +138,7 @@ public class UserDaoTest {
     @Test
     void update() {
         dao.add(userA);
+        dao.add(userB);
 
         userA.setName("수정");
         userA.setPassword("update");
@@ -148,5 +149,8 @@ public class UserDaoTest {
 
         User updateUserA = dao.get(userA.getId());
         checkSameUser(userA, updateUserA);
+
+        User sameUserB = dao.get(userB.getId());
+        checkSameUser(userB, sameUserB);
     }
 }
