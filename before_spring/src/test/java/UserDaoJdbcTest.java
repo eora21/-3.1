@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import user.dao.UserDaoJdbc;
+import user.dao.UserDao;
 import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
@@ -22,7 +22,7 @@ public class UserDaoJdbcTest {
     ApplicationContext context;
 
     @Autowired
-    UserDaoJdbc dao;
+    UserDao dao;
 
     @BeforeEach
     void beforeEach() throws SQLException {
