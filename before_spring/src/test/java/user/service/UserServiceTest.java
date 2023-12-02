@@ -1,9 +1,8 @@
 package user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
-import static user.service.UserService.MIN_LOGIN_COUNT_FOR_SILVER;
-import static user.service.UserService.MIN_RECOMMEND_COUNT_FOR_GOLD;
+import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
+import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
