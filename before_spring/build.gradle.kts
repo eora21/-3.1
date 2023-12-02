@@ -11,13 +11,14 @@ repositories {
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("org.springframework:spring-context:6.1.1")
     implementation("org.springframework:spring-jdbc:6.1.1")
-    implementation("org.assertj:assertj-core:3.24.2")
-    implementation("org.springframework:spring-test:6.1.1")
-    implementation("org.mockito:mockito-core:5.8.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("org.springframework:spring-test:6.1.1")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.8.0")
+    testImplementation("org.springframework.boot:spring-boot-test:3.2.0")
 }
 
 tasks.test {
