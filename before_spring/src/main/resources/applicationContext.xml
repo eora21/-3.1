@@ -17,7 +17,12 @@
         <property name="jdbcTemplate" ref="dataSource"/>
     </bean>
 
+    <bean id="userLevelUpgradePolicy" class="user.domain.NormalLevelUpgradePolicy">
+        <constructor-arg name="userDao" ref="userDao"/>
+    </bean>
+
     <bean id="userService" class="user.service.UserService">
         <property name="userDao" ref="userDao"/>
+        <property name="levelUpgradePolicy" ref="userLevelUpgradePolicy"/>
     </bean>
 </beans>
