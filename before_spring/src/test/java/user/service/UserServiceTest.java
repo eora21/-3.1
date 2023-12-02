@@ -1,6 +1,9 @@
 package user.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
 import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
@@ -9,10 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import user.dao.UserDao;
 import user.domain.Level;
+import user.domain.NormalLevelUpgradePolicy;
 import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
@@ -22,14 +27,16 @@ class UserServiceTest {
     UserService userService;
     @Autowired
     UserDao userDao;
+    @SpyBean
+    NormalLevelUpgradePolicy userLevelUpgradePolicy;
 
     List<User> users = List.of(
             new User("basic", "브론즈", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER - 1, 0),
-            new User("toSilver", "브론즈-실버", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER, 0),
+            new User("toSilver", "브론즈->실버", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER, 0),
             new User("silver", "실버", "password", Level.SILVER, 60, MIN_RECOMMEND_COUNT_FOR_GOLD - 1),
-            new User("toGold", "실버-골드", "password", Level.SILVER, 60, MIN_RECOMMEND_COUNT_FOR_GOLD),
+            new User("toGold", "실버->골드", "password", Level.SILVER, 60, MIN_RECOMMEND_COUNT_FOR_GOLD),
             new User("gold", "골드", "password", Level.GOLD, 100, Integer.MAX_VALUE)
-    );;
+    );
 
     @BeforeEach
     void setUp() {
@@ -76,4 +83,32 @@ class UserServiceTest {
         assertThat(userWithLevelRead.getLevel()).isEqualByComparingTo(Level.GOLD);
         assertThat(userWithoutLevelRead.getLevel()).isEqualByComparingTo(Level.BASIC);
     }
+
+    @Test
+    void upgradeAllOrNothing() {
+        doAnswer(invocation -> {
+            User userArg = invocation.getArgument(0);
+            if (userArg.getId().equals("toSilver")) {
+                throw new TestUserServiceException();
+            }
+
+            invocation.callRealMethod();
+
+            return null;
+        }).when(userLevelUpgradePolicy).upgradeLevel(any(User.class));
+
+        try {
+            users.forEach(userDao::add);
+            userService.upgradeLevels();
+            fail("TestUserServiceException expected");
+        } catch (TestUserServiceException e) {
+            // ignore
+        }
+
+        checkLevel(users.get(3), false);
+    }
+
+    static class TestUserServiceException extends RuntimeException {
+    }
+
 }
