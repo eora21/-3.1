@@ -44,7 +44,7 @@ class UserServiceTest {
     }
 
     @Test
-    void upgradeLevels() {
+    void upgradeLevels() throws Exception {
         users.forEach(userDao::add);
         userService.upgradeLevels();
 
@@ -85,7 +85,7 @@ class UserServiceTest {
     }
 
     @Test
-    void upgradeAllOrNothing() {
+    void upgradeAllOrNothing() throws Exception {
         doAnswer(invocation -> {
             User userArg = invocation.getArgument(0);
             if (userArg.getId().equals("toSilver")) {
