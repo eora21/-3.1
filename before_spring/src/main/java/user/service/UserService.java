@@ -9,6 +9,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.jta.JtaTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import user.dao.UserDao;
@@ -33,7 +34,7 @@ public class UserService {
     }
 
     public void upgradeLevels() throws Exception {
-        PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        PlatformTransactionManager transactionManager = new JtaTransactionManager();
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
