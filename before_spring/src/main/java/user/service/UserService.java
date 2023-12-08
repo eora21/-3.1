@@ -2,16 +2,10 @@ package user.service;
 
 import static user.domain.Level.BASIC;
 
-import java.sql.Connection;
 import java.util.Objects;
-import javax.sql.DataSource;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.jta.JtaTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 import user.dao.UserDao;
 import user.domain.User;
 import user.domain.UserLevelUpgradePolicy;
@@ -33,8 +27,7 @@ public class UserService {
         this.transactionManager = transactionManager;
     }
 
-    public void upgradeLevels() throws Exception {
-        PlatformTransactionManager transactionManager = new JtaTransactionManager();
+    public void upgradeLevels() {
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
