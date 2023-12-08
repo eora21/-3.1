@@ -21,9 +21,13 @@
         <constructor-arg name="userDao" ref="userDao"/>
     </bean>
 
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
     <bean id="userService" class="user.service.UserService">
         <property name="userDao" ref="userDao"/>
         <property name="levelUpgradePolicy" ref="userLevelUpgradePolicy"/>
-        <property name="dataSource" ref="dataSource"/>
+        <property name="transactionManager" ref="transactionManager"/>
     </bean>
 </beans>
