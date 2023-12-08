@@ -17,9 +17,9 @@ import user.domain.User;
 import user.domain.UserLevelUpgradePolicy;
 
 public class UserService {
-    UserLevelUpgradePolicy levelUpgradePolicy;
-    UserDao userDao;
-    DataSource dataSource;
+    private UserLevelUpgradePolicy levelUpgradePolicy;
+    private UserDao userDao;
+    private PlatformTransactionManager transactionManager;
 
     public void setLevelUpgradePolicy(UserLevelUpgradePolicy levelUpgradePolicy) {
         this.levelUpgradePolicy = levelUpgradePolicy;
@@ -29,8 +29,8 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
     }
 
     public void upgradeLevels() throws Exception {
