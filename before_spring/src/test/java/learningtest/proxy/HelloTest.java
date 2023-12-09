@@ -2,6 +2,7 @@ package learningtest.proxy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.lang.reflect.Proxy;
 import org.junit.jupiter.api.Test;
 
 public class HelloTest {
@@ -16,7 +17,8 @@ public class HelloTest {
 
     @Test
     void uppercaseProxy() {
-        HelloUppercase proxiedHello = new HelloUppercase(new HelloTarget());
+        Hello proxiedHello = (Hello) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{Hello.class},
+                new UppercaseHandler(new HelloTarget()));
         String toby = "Toby";
         assertThat(proxiedHello.sayHello(toby)).isEqualTo("HELLO TOBY");
         assertThat(proxiedHello.sayHi(toby)).isEqualTo("HI TOBY");
