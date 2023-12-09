@@ -7,6 +7,8 @@ import static user.domain.Level.SILVER;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Predicate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import user.dao.UserDao;
 
 public class NormalLevelUpgradePolicy implements UserLevelUpgradePolicy {
@@ -41,5 +43,19 @@ public class NormalLevelUpgradePolicy implements UserLevelUpgradePolicy {
     public void upgradeLevel(User user) {
         user.upgradeLevel();
         userDao.update(user);
+        sendUpgradeEmail(user);
+    }
+
+    private void sendUpgradeEmail(User user) {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("mail.server.com");
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setText(user.getEmail());
+        mailMessage.setFrom("eora21@naver.com");
+        mailMessage.setSubject("Upgrade 안내");
+        mailMessage.setText("사용자님의 등급이 " + user.getLevel().name() + "으로 업그레이드 되었습니다.");
+
+        mailSender.send(mailMessage);
     }
 }
