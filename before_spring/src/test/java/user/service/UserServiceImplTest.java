@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
 import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
 import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,9 +27,9 @@ import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "classpath:testApplicationContext.xml")
-class UserServiceTest {
+class UserServiceImplTest {
     @Autowired
-    UserService userService;
+    UserServiceImpl userServiceImpl;
     @Autowired
     UserDao userDao;
     @SpyBean
@@ -64,7 +62,7 @@ class UserServiceTest {
         }).when(mailSender).send(any(SimpleMailMessage.class));
 
         users.forEach(userDao::add);
-        userService.upgradeLevels();
+        userServiceImpl.upgradeLevels();
 
         checkLevel(users.get(0), false);
         checkLevel(users.get(1), true);
@@ -96,8 +94,8 @@ class UserServiceTest {
         User userWithoutLevel = users.get(0);
         userWithoutLevel.setLevel(null);
 
-        userService.add(userWithLevel);
-        userService.add(userWithoutLevel);
+        userServiceImpl.add(userWithLevel);
+        userServiceImpl.add(userWithoutLevel);
 
         User userWithLevelRead = userDao.get(userWithLevel.getId());
         User userWithoutLevelRead = userDao.get(userWithoutLevel.getId());
@@ -121,7 +119,7 @@ class UserServiceTest {
 
         try {
             users.forEach(userDao::add);
-            userService.upgradeLevels();
+            userServiceImpl.upgradeLevels();
             fail("TestUserServiceException expected");
         } catch (TestUserServiceException e) {
             // ignore
