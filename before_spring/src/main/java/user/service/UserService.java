@@ -31,14 +31,18 @@ public class UserService {
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
         try {
-            userDao.getAll().stream()
-                    .filter(levelUpgradePolicy::canUpgradeLevel)
-                    .forEach(levelUpgradePolicy::upgradeLevel);
+            upgradeLevelsInternal();
             transactionManager.commit(status);
         } catch (Exception e) {
             transactionManager.rollback(status);
             throw e;
         }
+    }
+
+    private void upgradeLevelsInternal() {
+        userDao.getAll().stream()
+                .filter(levelUpgradePolicy::canUpgradeLevel)
+                .forEach(levelUpgradePolicy::upgradeLevel);
     }
 
     public void add(User user) {
