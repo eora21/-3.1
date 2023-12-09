@@ -41,9 +41,9 @@ public class UserDaoTest {
         dao.deleteAll();
     }
 
-    User userA = new User("A", "에이", "PA", Level.BASIC, 1, 0);
-    User userB = new User("B", "비", "PB", Level.SILVER, 55, 10);
-    User userC = new User("C", "씨", "PC", Level.GOLD, 100, 40);
+    User userA = new User("A", "에이", "PA", Level.BASIC, 1, 0, "A@email");
+    User userB = new User("B", "비", "PB", Level.SILVER, 55, 10, "B@email");
+    User userC = new User("C", "씨", "PC", Level.GOLD, 100, 40, "C@email");
 
     @Test
     void addAndGet() throws SQLException, ClassNotFoundException {
@@ -112,7 +112,8 @@ public class UserDaoTest {
                 () -> assertThat(firstUser.getPassword()).isEqualTo(secondUser.getPassword()),
                 () -> assertThat(firstUser.getLevel()).isEqualTo(secondUser.getLevel()),
                 () -> assertThat(firstUser.getLogin()).isEqualTo(secondUser.getLogin()),
-                () -> assertThat(firstUser.getRecommend()).isEqualTo(secondUser.getRecommend())
+                () -> assertThat(firstUser.getRecommend()).isEqualTo(secondUser.getRecommend()),
+                () -> assertThat(firstUser.getEmail()).isEqualTo(secondUser.getEmail())
         );
     }
 
