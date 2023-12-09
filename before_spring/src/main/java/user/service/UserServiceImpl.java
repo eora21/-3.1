@@ -13,7 +13,7 @@ import user.domain.UserLevelUpgradePolicy;
 public class UserServiceImpl implements UserService {
     private UserLevelUpgradePolicy levelUpgradePolicy;
     private UserDao userDao;
-    private PlatformTransactionManager transactionManager;
+
 
     public void setLevelUpgradePolicy(UserLevelUpgradePolicy levelUpgradePolicy) {
         this.levelUpgradePolicy = levelUpgradePolicy;
@@ -23,23 +23,9 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    public void setTransactionManager(PlatformTransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
-    }
+
 
     public void upgradeLevels() {
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-
-        try {
-            upgradeLevelsInternal();
-            transactionManager.commit(status);
-        } catch (Exception e) {
-            transactionManager.rollback(status);
-            throw e;
-        }
-    }
-
-    private void upgradeLevelsInternal() {
         userDao.getAll().stream()
                 .filter(levelUpgradePolicy::canUpgradeLevel)
                 .forEach(levelUpgradePolicy::upgradeLevel);
