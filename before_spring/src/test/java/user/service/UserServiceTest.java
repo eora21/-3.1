@@ -4,15 +4,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
 import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import user.dao.UserDao;
@@ -29,6 +36,8 @@ class UserServiceTest {
     UserDao userDao;
     @SpyBean
     NormalLevelUpgradePolicy userLevelUpgradePolicy;
+    @MockBean
+    MailSender mailSender;
 
     List<User> users = List.of(
             new User("basic", "브론즈", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER - 1, 0, "basic@email"),
@@ -45,6 +54,15 @@ class UserServiceTest {
 
     @Test
     void upgradeLevels() throws Exception {
+        List<String> requests = new ArrayList<>();
+
+        doAnswer(invocation -> {
+            SimpleMailMessage mailMessage = invocation.getArgument(0);
+            requests.add(Objects.requireNonNull(mailMessage.getTo())[0]);
+
+            return null;
+        }).when(mailSender).send(any(SimpleMailMessage.class));
+
         users.forEach(userDao::add);
         userService.upgradeLevels();
 
@@ -53,6 +71,10 @@ class UserServiceTest {
         checkLevel(users.get(2), false);
         checkLevel(users.get(3), true);
         checkLevel(users.get(4), false);
+
+        assertThat(requests.size()).isEqualTo(2);
+        assertThat(requests.get(0)).isEqualTo(users.get(3).getEmail());
+        assertThat(requests.get(1)).isEqualTo(users.get(1).getEmail());
     }
 
     private void checkLevel(User user, boolean upgraded) {
