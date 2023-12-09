@@ -50,7 +50,7 @@ public class NormalLevelUpgradePolicy implements UserLevelUpgradePolicy {
 
     private void sendUpgradeEmail(User user) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setText(user.getEmail());
+        mailMessage.setTo(user.getEmail());
         mailMessage.setFrom("eora21@naver.com");
         mailMessage.setSubject("Upgrade 안내");
         mailMessage.setText("사용자님의 등급이 " + user.getLevel().name() + "으로 업그레이드 되었습니다.");
