@@ -17,8 +17,11 @@
         <property name="jdbcTemplate" ref="dataSource"/>
     </bean>
 
+    <bean id="mailSender" class="user.domain.DummyMailSender"/>
+
     <bean id="userLevelUpgradePolicy" class="user.domain.NormalLevelUpgradePolicy">
         <constructor-arg name="userDao" ref="userDao"/>
+        <constructor-arg name="mailSender" ref="mailSender"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
