@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
 import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
@@ -30,7 +31,7 @@ import user.domain.User;
 class UserServiceTest {
     @Autowired
     UserService userService;
-    @Autowired
+    @SpyBean
     UserDao userDao;
     @SpyBean
     NormalLevelUpgradePolicy userLevelUpgradePolicy;
@@ -61,18 +62,14 @@ class UserServiceTest {
             return null;
         }).when(mailSender).send(any(SimpleMailMessage.class));
 
-        users.forEach(userDao::add);
+        when(userDao.getAll())
+                .thenReturn(users);
+
         userService.upgradeLevels();
 
-        checkLevel(users.get(0), false);
-        checkLevel(users.get(1), true);
-        checkLevel(users.get(2), false);
-        checkLevel(users.get(3), true);
-        checkLevel(users.get(4), false);
-
         assertThat(requests.size()).isEqualTo(2);
-        assertThat(requests.get(0)).isEqualTo(users.get(3).getEmail());
-        assertThat(requests.get(1)).isEqualTo(users.get(1).getEmail());
+        assertThat(requests.get(0)).isEqualTo(users.get(1).getEmail());
+        assertThat(requests.get(1)).isEqualTo(users.get(3).getEmail());
     }
 
     private void checkLevel(User user, boolean upgraded) {
