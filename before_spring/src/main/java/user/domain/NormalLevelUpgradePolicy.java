@@ -7,8 +7,8 @@ import static user.domain.Level.SILVER;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Predicate;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import user.dao.UserDao;
 
 public class NormalLevelUpgradePolicy implements UserLevelUpgradePolicy {
@@ -17,10 +17,12 @@ public class NormalLevelUpgradePolicy implements UserLevelUpgradePolicy {
 
     private final Map<Level, Predicate<User>> levelUpConditions = writeCondition();
     private final UserDao userDao;
+    private final MailSender mailSender;
 
 
-    public NormalLevelUpgradePolicy(UserDao userDao) {
+    public NormalLevelUpgradePolicy(UserDao userDao, MailSender mailSender) {
         this.userDao = userDao;
+        this.mailSender = mailSender;
     }
 
     private Map<Level, Predicate<User>> writeCondition() {
@@ -47,9 +49,6 @@ public class NormalLevelUpgradePolicy implements UserLevelUpgradePolicy {
     }
 
     private void sendUpgradeEmail(User user) {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("mail.server.com");
-
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setText(user.getEmail());
         mailMessage.setFrom("eora21@naver.com");
