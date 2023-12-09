@@ -27,7 +27,7 @@ import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "classpath:testApplicationContext.xml")
-class UserServiceImplTest {
+class UserServiceTest {
     @Autowired
     UserService userService;
     @Autowired
