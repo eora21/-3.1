@@ -29,7 +29,7 @@ import user.domain.User;
 @ContextConfiguration(locations = "classpath:testApplicationContext.xml")
 class UserServiceImplTest {
     @Autowired
-    UserServiceImpl userServiceImpl;
+    UserService userService;
     @Autowired
     UserDao userDao;
     @SpyBean
@@ -62,7 +62,7 @@ class UserServiceImplTest {
         }).when(mailSender).send(any(SimpleMailMessage.class));
 
         users.forEach(userDao::add);
-        userServiceImpl.upgradeLevels();
+        userService.upgradeLevels();
 
         checkLevel(users.get(0), false);
         checkLevel(users.get(1), true);
@@ -94,8 +94,8 @@ class UserServiceImplTest {
         User userWithoutLevel = users.get(0);
         userWithoutLevel.setLevel(null);
 
-        userServiceImpl.add(userWithLevel);
-        userServiceImpl.add(userWithoutLevel);
+        userService.add(userWithLevel);
+        userService.add(userWithoutLevel);
 
         User userWithLevelRead = userDao.get(userWithLevel.getId());
         User userWithoutLevelRead = userDao.get(userWithoutLevel.getId());
@@ -119,7 +119,7 @@ class UserServiceImplTest {
 
         try {
             users.forEach(userDao::add);
-            userServiceImpl.upgradeLevels();
+            userService.upgradeLevels();
             fail("TestUserServiceException expected");
         } catch (TestUserServiceException e) {
             // ignore
