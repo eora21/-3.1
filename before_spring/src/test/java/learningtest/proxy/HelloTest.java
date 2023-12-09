@@ -13,4 +13,13 @@ public class HelloTest {
         assertThat(hello.sayHi(toby)).isEqualTo("Hi Toby");
         assertThat(hello.sayThankYou(toby)).isEqualTo("Thank You Toby");
     }
+
+    @Test
+    void uppercaseProxy() {
+        HelloUppercase proxiedHello = new HelloUppercase(new HelloTarget());
+        String toby = "Toby";
+        assertThat(proxiedHello.sayHello(toby)).isEqualTo("HELLO TOBY");
+        assertThat(proxiedHello.sayHi(toby)).isEqualTo("HI TOBY");
+        assertThat(proxiedHello.sayThankYou(toby)).isEqualTo("THANK YOU TOBY");
+    }
 }
