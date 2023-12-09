@@ -10,7 +10,7 @@ import user.dao.UserDao;
 import user.domain.User;
 import user.domain.UserLevelUpgradePolicy;
 
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
     private UserLevelUpgradePolicy levelUpgradePolicy;
     private UserDao userDao;
     private PlatformTransactionManager transactionManager;
