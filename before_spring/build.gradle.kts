@@ -20,6 +20,7 @@ dependencies {
     testImplementation("org.mockito:mockito-junit-jupiter:5.8.0")
     testImplementation("org.springframework.boot:spring-boot-test:3.2.0")
     implementation("org.springframework.boot:spring-boot-starter-mail:3.2.0")
+    implementation("org.aspectj:aspectjweaver:1.9.20")
 }
 
 tasks.test {
