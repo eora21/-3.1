@@ -127,4 +127,8 @@ class UserServiceTest {
     static class TestUserServiceException extends RuntimeException {
     }
 
+    @Test
+    void advisorAutoProxyCreator() {
+        assertThat(userService).isInstanceOf(java.lang.reflect.Proxy.class);
+    }
 }
