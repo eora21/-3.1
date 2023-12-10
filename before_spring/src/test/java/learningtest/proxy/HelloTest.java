@@ -3,7 +3,11 @@ package learningtest.proxy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Proxy;
+import java.util.Objects;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.junit.jupiter.api.Test;
+import org.springframework.aop.framework.ProxyFactoryBean;
 
 public class HelloTest {
     @Test
@@ -23,5 +27,28 @@ public class HelloTest {
         assertThat(proxiedHello.sayHello(toby)).isEqualTo("HELLO TOBY");
         assertThat(proxiedHello.sayHi(toby)).isEqualTo("HI TOBY");
         assertThat(proxiedHello.sayThankYou(toby)).isEqualTo("THANK YOU TOBY");
+    }
+
+    @Test
+    void proxyFactoryBean() {
+        ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
+        proxyFactoryBean.setTarget(new HelloTarget());
+        proxyFactoryBean.addAdvice(new UppercaseAdvice());
+
+        Hello proxiedHello = (Hello) proxyFactoryBean.getObject();
+
+        assert Objects.nonNull(proxiedHello);
+
+        String toby = "Toby";
+        assertThat(proxiedHello.sayHello(toby)).isEqualTo("HELLO TOBY");
+        assertThat(proxiedHello.sayHi(toby)).isEqualTo("HI TOBY");
+        assertThat(proxiedHello.sayThankYou(toby)).isEqualTo("THANK YOU TOBY");
+    }
+
+    static class UppercaseAdvice implements MethodInterceptor {
+        @Override
+        public Object invoke(MethodInvocation invocation) throws Throwable {
+            return ((String) Objects.requireNonNull(invocation.proceed())).toUpperCase();
+        }
     }
 }
