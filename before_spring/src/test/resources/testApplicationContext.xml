@@ -33,8 +33,10 @@
         <property name="levelUpgradePolicy" ref="userLevelUpgradePolicy"/>
     </bean>
 
-    <bean id="userService" class="user.service.UserServiceTx">
-        <property name="transactionManager" ref="transactionManager"/>
-        <property name="userService" ref="userServiceImpl"/>
+    <bean id="userService" class="user.service.TxProxyFactoryBean">
+        <constructor-arg name="target" ref="userServiceImpl"/>
+        <constructor-arg name="transactionManager" ref="transactionManager"/>
+        <constructor-arg name="serviceInterface" value="user.service.UserService"/>
+        <constructor-arg name="pattern" value="upgradeLevels"/>
     </bean>
 </beans>
