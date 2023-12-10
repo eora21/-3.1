@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
 import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +21,6 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.PlatformTransactionManager;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.NormalLevelUpgradePolicy;
@@ -39,11 +37,6 @@ class UserServiceTest {
     NormalLevelUpgradePolicy userLevelUpgradePolicy;
     @MockBean
     MailSender mailSender;
-    @Autowired
-    PlatformTransactionManager transactionManager;
-    @Autowired
-    UserServiceImpl userServiceImpl;
-
     List<User> users = List.of(
             new User("basic", "브론즈", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER - 1, 0, "basic@email"),
             new User("toSilver", "브론즈->실버", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER, 0, "toSilver@email"),
@@ -109,10 +102,6 @@ class UserServiceTest {
 
     @Test
     void upgradeAllOrNothing() throws Exception {
-        TransactionHandler transactionHandler = new TransactionHandler(userServiceImpl, transactionManager, "upgradeLevels");
-        userService = (UserService) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{UserService.class},
-                transactionHandler);
-
         doAnswer(invocation -> {
             User userArg = invocation.getArgument(0);
             if (userArg.getId().equals("toSilver")) {
