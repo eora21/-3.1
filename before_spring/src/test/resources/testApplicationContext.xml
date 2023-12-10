@@ -33,10 +33,25 @@
         <property name="levelUpgradePolicy" ref="userLevelUpgradePolicy"/>
     </bean>
 
-    <bean id="userService" class="user.service.TxProxyFactoryBean">
-        <constructor-arg name="target" ref="userServiceImpl"/>
+    <bean id="transactionAdvice" class="user.service.TransactionAdvice">
         <constructor-arg name="transactionManager" ref="transactionManager"/>
-        <constructor-arg name="serviceInterface" value="user.service.UserService"/>
-        <constructor-arg name="pattern" value="upgradeLevels"/>
+    </bean>
+
+    <bean name="transactionPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+        <property name="mappedName" value="upgrade*"/>
+    </bean>
+
+    <bean name="transactionAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="transactionAdvice"/>
+        <property name="pointcut" ref="transactionPointcut"/>
+    </bean>
+
+    <bean id="userService" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="userServiceImpl"/>
+        <property name="interceptorNames">
+            <list>
+                <value>transactionAdvisor</value>
+            </list>
+        </property>
     </bean>
 </beans>
