@@ -21,6 +21,8 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.NormalLevelUpgradePolicy;
@@ -144,5 +146,22 @@ class UserServiceTest {
             return null;
         }
 
+        @Override
+        public void add(User user) {
+            System.out.println(TransactionSynchronizationManager.getCurrentTransactionName());
+            super.add(user);
+        }
+
+        @Override
+        public void deleteAll() {
+            System.out.println(TransactionSynchronizationManager.getCurrentTransactionName());
+            super.deleteAll();
+        }
+    }
+
+    @Test
+    void transactionSync() {
+        testUserService.deleteAll();
+        testUserService.add(users.get(0));
     }
 }
