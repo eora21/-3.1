@@ -39,9 +39,8 @@
         <constructor-arg name="transactionManager" ref="transactionManager"/>
     </bean>
 
-    <bean name="transactionPointcut" class="user.service.NameMatchClassMethodPointcut">
-        <property name="mappedClassName" value="*ServiceImpl"/>
-        <property name="mappedName" value="upgrade*"/>
+    <bean name="transactionPointcut" class="org.springframework.aop.aspectj.AspectJExpressionPointcut">
+        <property name="expression" value="execution(* *..*ServiceImpl.upgrade*(..))"/>
     </bean>
 
     <bean name="transactionAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
