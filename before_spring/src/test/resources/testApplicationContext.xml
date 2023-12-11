@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:property-placeholder location="classpath:config.properties"/>
 
@@ -16,6 +16,12 @@
 
     <bean id="userDao" class="user.dao.UserDaoJdbc">
         <property name="jdbcTemplate" ref="dataSource"/>
+        <property name="sqlAdd" value="insert into users(id, name, password, level, login, recommend, email) values (?,?,?,?,?,?,?)"/>
+        <property name="sqlDeleteAll" value="delete from users"/>
+        <property name="sqlGet" value="select * from users where id = ?"/>
+        <property name="sqlGetAll" value="select * from users order by id"/>
+        <property name="sqlGetCount" value="select count(*) from users"/>
+        <property name="sqlUpdate" value="update users set name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? where id = ?"/>
     </bean>
 
     <bean id="mailSender" class="user.domain.DummyMailSender"/>
