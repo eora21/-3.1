@@ -37,6 +37,9 @@ class UserServiceTest {
     NormalLevelUpgradePolicy userLevelUpgradePolicy;
     @MockBean
     MailSender mailSender;
+    @Autowired
+    UserService testUserService;
+
     List<User> users = List.of(
             new User("basic", "브론즈", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER - 1, 0, "basic@email"),
             new User("toSilver", "브론즈->실버", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER, 0, "toSilver@email"),
@@ -130,5 +133,16 @@ class UserServiceTest {
     @Test
     void advisorAutoProxyCreator() {
         assertThat(userService).isInstanceOf(java.lang.reflect.Proxy.class);
+    }
+
+    static class TestUserService extends UserServiceImpl {
+        @Override
+        public List<User> getAll() {
+            super.getAll()
+                    .forEach(super::update);  // readOnly가 적용되나 Vendor에 따라 예외가 발생할 수도, 하지 않을 수도 있음.
+
+            return null;
+        }
+
     }
 }
