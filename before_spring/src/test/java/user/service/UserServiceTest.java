@@ -22,6 +22,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import user.dao.UserDao;
 import user.domain.Level;
@@ -160,6 +161,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Transactional
     void transactionSync() {
         testUserService.deleteAll();
         testUserService.add(users.get(0));
