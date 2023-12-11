@@ -22,6 +22,37 @@ public class UserDaoJdbc implements UserDao {
         return user;
     };
 
+    private String sqlAdd;
+    private String sqlGet;
+    private String sqlDeleteAll;
+    private String sqlGetCount;
+    private String sqlGetAll;
+    private String sqlUpdate;
+
+    public void setSqlAdd(String sqlAdd) {
+        this.sqlAdd = sqlAdd;
+    }
+
+    public void setSqlGet(String sqlGet) {
+        this.sqlGet = sqlGet;
+    }
+
+    public void setSqlDeleteAll(String sqlDeleteAll) {
+        this.sqlDeleteAll = sqlDeleteAll;
+    }
+
+    public void setSqlGetCount(String sqlGetCount) {
+        this.sqlGetCount = sqlGetCount;
+    }
+
+    public void setSqlGetAll(String sqlGetAll) {
+        this.sqlGetAll = sqlGetAll;
+    }
+
+    public void setSqlUpdate(String sqlUpdate) {
+        this.sqlUpdate = sqlUpdate;
+    }
+
     private JdbcTemplate jdbcTemplate;
 
     public void setJdbcTemplate(DataSource dataSource) {
@@ -30,31 +61,31 @@ public class UserDaoJdbc implements UserDao {
 
     public void add(User user) {
         jdbcTemplate.update(
-                "insert into users(id, name, password, level, login, recommend, email) values (?,?,?,?,?,?,?)",
+                sqlAdd,
                 user.getId(), user.getName(), user.getPassword(), user.getLevel().intValue(), user.getLogin(),
                 user.getRecommend(), user.getEmail());
     }
 
     public User get(String id) {
-        return jdbcTemplate.queryForObject("select * from users where id = ?", new Object[] {id}, userMapper);
+        return jdbcTemplate.queryForObject(sqlGet, new Object[] {id}, userMapper);
     }
 
     public void deleteAll() {
-        jdbcTemplate.update("delete from users");
+        jdbcTemplate.update(sqlDeleteAll);
     }
 
     public int getCount() {
-        return jdbcTemplate.queryForObject("select count(*) from users", int.class);
+        return jdbcTemplate.queryForObject(sqlGetCount, int.class);
     }
 
     public List<User> getAll() {
-        return jdbcTemplate.query("select * from users order by id", userMapper);
+        return jdbcTemplate.query(sqlGetAll, userMapper);
     }
 
     @Override
     public void update(User user) {
         jdbcTemplate.update(
-                "update users set name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? where id = ?",
+                sqlUpdate,
                 user.getName(), user.getPassword(), user.getLevel().intValue(), user.getLogin(), user.getRecommend(),
                 user.getEmail(), user.getId());
     }
