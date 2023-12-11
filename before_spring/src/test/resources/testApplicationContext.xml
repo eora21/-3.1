@@ -34,6 +34,8 @@
         <property name="levelUpgradePolicy" ref="userLevelUpgradePolicy"/>
     </bean>
 
+    <bean id="testUserService" class="user.service.UserServiceTest$TestUserService" parent="userService"/>
+
     <tx:advice id="transactionAdvice">
         <tx:attributes>
             <tx:method name="get*" read-only="true"/>
