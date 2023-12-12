@@ -14,7 +14,9 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean id="sqlService" class="user.sqlservice.XmlSqlService"/>
+    <bean id="sqlService" class="user.sqlservice.XmlSqlService">
+        <property name="sqlmapFile" value="sqlmap.xml"/>
+    </bean>
 
     <bean id="userDao" class="user.dao.UserDaoJdbc">
         <property name="jdbcTemplate" ref="dataSource"/>
