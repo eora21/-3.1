@@ -14,10 +14,15 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean id="sqlService" class="user.sqlservice.XmlSqlService">
-        <property name="sqlReader" ref="sqlService"/>
-        <property name="sqlRegistry" ref="sqlService"/>
+    <bean id="sqlReader" class="user.sqlservice.JaxbXmlSqlReader">
         <property name="sqlmapFile" value="sqlmap.xml"/>
+    </bean>
+
+    <bean id="sqlRegistry" class="user.sqlservice.HashMapSqlRegistry"/>
+
+    <bean id="sqlService" class="user.sqlservice.BaseSqlService">
+        <property name="sqlReader" ref="sqlReader"/>
+        <property name="sqlRegistry" ref="sqlRegistry"/>
     </bean>
 
     <bean id="userDao" class="user.dao.UserDaoJdbc">
