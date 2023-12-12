@@ -14,18 +14,22 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean id="userDao" class="user.dao.UserDaoJdbc">
-        <property name="jdbcTemplate" ref="dataSource"/>
+    <bean id="sqlService" class="user.sqlservice.SimpleSqlService">
         <property name="sqlMap">
             <map>
-                <entry key="add" value="insert into users(id, name, password, level, login, recommend, email) values (?,?,?,?,?,?,?)"/>
-                <entry key="deleteAll" value="delete from users"/>
-                <entry key="get" value="select * from users where id = ?"/>
-                <entry key="getAll" value="select * from users order by id"/>
-                <entry key="getCount" value="select count(*) from users"/>
-                <entry key="update" value="update users set name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? where id = ?"/>
+                <entry key="userAdd" value="insert into users(id, name, password, level, login, recommend, email) values (?,?,?,?,?,?,?)"/>
+                <entry key="userDeleteAll" value="delete from users"/>
+                <entry key="userGet" value="select * from users where id = ?"/>
+                <entry key="userGetAll" value="select * from users order by id"/>
+                <entry key="userGetCount" value="select count(*) from users"/>
+                <entry key="userUpdate" value="update users set name = ?, password = ?, level = ?, login = ?, recommend = ?, email = ? where id = ?"/>
             </map>
         </property>
+    </bean>
+
+    <bean id="userDao" class="user.dao.UserDaoJdbc">
+        <property name="jdbcTemplate" ref="dataSource"/>
+        <property name="sqlService" ref="sqlService"/>
     </bean>
 
     <bean id="mailSender" class="user.domain.DummyMailSender"/>
