@@ -11,14 +11,19 @@ import user.service.jaxb.Sqlmap;
 
 public class XmlSqlService implements SqlService {
     private final Map<String, String> sqlMap = new HashMap<>();
+    private String sqlmapFile;
 
-    public XmlSqlService() {
+    public void setSqlmapFile(String sqlmapFile) {
+        this.sqlmapFile = sqlmapFile;
+    }
+
+    public void loadSql() {
         try {
             JAXBContext context = JAXBContext.newInstance(Sqlmap.class, SqlType.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
             Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(
-                    getClass().getClassLoader().getResourceAsStream("sqlmap.xml"));
+                    getClass().getClassLoader().getResourceAsStream(sqlmapFile));
 
             for (SqlType sql : sqlmap.getSql()) {
                 sqlMap.put(sql.getKey(), sql.getValue());
