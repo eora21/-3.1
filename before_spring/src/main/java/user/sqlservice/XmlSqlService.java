@@ -1,5 +1,6 @@
 package user.sqlservice;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -17,6 +18,7 @@ public class XmlSqlService implements SqlService {
         this.sqlmapFile = sqlmapFile;
     }
 
+    @PostConstruct
     public void loadSql() {
         try {
             JAXBContext context = JAXBContext.newInstance(Sqlmap.class, SqlType.class);
