@@ -22,6 +22,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail:3.2.0")
     implementation("org.aspectj:aspectjweaver:1.9.20")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.1")
+    implementation("org.glassfish.jaxb:jaxb-runtime:4.0.4")
 }
 
 tasks.test {
