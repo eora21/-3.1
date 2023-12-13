@@ -18,7 +18,9 @@
         <property name="packagesToScan" value="user.sqlservice.jaxb"/>
     </bean>
 
-    <bean id="sqlService" class="user.sqlservice.DefaultSqlService"/>
+    <bean id="sqlService" class="user.sqlservice.OxmSqlService">
+        <property name="unmarshaller" ref="unmarshaller"/>
+    </bean>
 
     <bean id="userDao" class="user.dao.UserDaoJdbc">
         <property name="jdbcTemplate" ref="dataSource"/>
