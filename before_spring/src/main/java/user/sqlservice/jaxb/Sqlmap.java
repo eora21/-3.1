@@ -1,4 +1,4 @@
-package user.service.jaxb;
+package user.sqlservice.jaxb;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;

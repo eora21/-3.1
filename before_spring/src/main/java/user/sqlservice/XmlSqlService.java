@@ -7,8 +7,8 @@ import jakarta.xml.bind.Unmarshaller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import user.service.jaxb.SqlType;
-import user.service.jaxb.Sqlmap;
+import user.sqlservice.jaxb.SqlType;
+import user.sqlservice.jaxb.Sqlmap;
 
 public class XmlSqlService implements SqlService, SqlRegistry, SqlReader {
     private final Map<String, String> sqlMap = new HashMap<>();

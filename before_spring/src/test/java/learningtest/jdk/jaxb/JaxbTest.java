@@ -6,8 +6,8 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import user.service.jaxb.SqlType;
-import user.service.jaxb.Sqlmap;
+import user.sqlservice.jaxb.SqlType;
+import user.sqlservice.jaxb.Sqlmap;
 
 public class JaxbTest {
     @Test

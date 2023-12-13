@@ -3,8 +3,8 @@ package user.sqlservice;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import user.service.jaxb.SqlType;
-import user.service.jaxb.Sqlmap;
+import user.sqlservice.jaxb.SqlType;
+import user.sqlservice.jaxb.Sqlmap;
 
 public class JaxbXmlSqlReader implements SqlReader {
     private static final String DEFAULT_SQLMAP_FILE = "sqlmap.xml";
