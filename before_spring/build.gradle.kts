@@ -23,6 +23,7 @@ dependencies {
     implementation("org.aspectj:aspectjweaver:1.9.20")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.1")
     implementation("org.glassfish.jaxb:jaxb-runtime:4.0.4")
+    implementation("org.springframework:spring-oxm:6.1.1")
 }
 
 tasks.test {
