@@ -20,6 +20,7 @@
 
     <bean id="sqlService" class="user.sqlservice.OxmSqlService">
         <property name="unmarshaller" ref="unmarshaller"/>
+        <property name="sqlmap" value="classpath:sqlmap.xml"/>
     </bean>
 
     <bean id="userDao" class="user.dao.UserDaoJdbc">
