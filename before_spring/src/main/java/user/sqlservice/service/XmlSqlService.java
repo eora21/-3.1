@@ -1,4 +1,4 @@
-package user.sqlservice;
+package user.sqlservice.service;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.xml.bind.JAXBContext;
@@ -7,8 +7,12 @@ import jakarta.xml.bind.Unmarshaller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import user.sqlservice.exception.SqlNotFoundException;
+import user.sqlservice.reader.SqlReader;
+import user.sqlservice.exception.SqlRetrievalFailureException;
 import user.sqlservice.jaxb.SqlType;
 import user.sqlservice.jaxb.Sqlmap;
+import user.sqlservice.registry.SqlRegistry;
 
 public class XmlSqlService implements SqlService, SqlRegistry, SqlReader {
     private final Map<String, String> sqlMap = new HashMap<>();

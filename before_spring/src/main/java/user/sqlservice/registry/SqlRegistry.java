@@ -1,4 +1,6 @@
-package user.sqlservice;
+package user.sqlservice.registry;
+
+import user.sqlservice.exception.SqlNotFoundException;
 
 public interface SqlRegistry {
     void registerSql(String key, String sql);

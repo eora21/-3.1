@@ -1,6 +1,10 @@
-package user.sqlservice;
+package user.sqlservice.service;
 
 import jakarta.annotation.PostConstruct;
+import user.sqlservice.exception.SqlNotFoundException;
+import user.sqlservice.reader.SqlReader;
+import user.sqlservice.registry.SqlRegistry;
+import user.sqlservice.exception.SqlRetrievalFailureException;
 
 public class BaseSqlService implements SqlService {
     protected SqlReader sqlReader;

@@ -18,7 +18,7 @@
         <property name="packagesToScan" value="user.sqlservice.jaxb"/>
     </bean>
 
-    <bean id="sqlService" class="user.sqlservice.OxmSqlService">
+    <bean id="sqlService" class="user.sqlservice.service.OxmSqlService">
         <property name="unmarshaller" ref="unmarshaller"/>
         <property name="sqlmap" value="classpath:sqlmap.xml"/>
     </bean>

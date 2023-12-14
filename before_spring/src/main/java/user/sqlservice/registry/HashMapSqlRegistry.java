@@ -1,8 +1,9 @@
-package user.sqlservice;
+package user.sqlservice.registry;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import user.sqlservice.exception.SqlNotFoundException;
 
 public class HashMapSqlRegistry implements SqlRegistry {
     private final Map<String, String> sqlMap = new HashMap<>();

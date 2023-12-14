@@ -1,7 +1,8 @@
-package user.sqlservice;
+package user.sqlservice.service;
 
 import java.util.Map;
 import java.util.Objects;
+import user.sqlservice.exception.SqlRetrievalFailureException;
 
 public class SimpleSqlService implements SqlService {
     private Map<String, String> sqlMap;

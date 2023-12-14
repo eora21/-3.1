@@ -1,10 +1,11 @@
-package user.sqlservice;
+package user.sqlservice.reader;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import user.sqlservice.jaxb.SqlType;
 import user.sqlservice.jaxb.Sqlmap;
+import user.sqlservice.registry.SqlRegistry;
 
 public class JaxbXmlSqlReader implements SqlReader {
     private static final String DEFAULT_SQLMAP_FILE = "sqlmap.xml";

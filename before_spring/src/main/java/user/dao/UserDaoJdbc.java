@@ -2,13 +2,12 @@ package user.dao;
 
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import user.domain.Level;
 import user.domain.User;
-import user.sqlservice.SqlService;
+import user.sqlservice.service.SqlService;
 
 public class UserDaoJdbc implements UserDao {
     private final RowMapper<User> userMapper = (ResultSet rs, int rowNum) -> {

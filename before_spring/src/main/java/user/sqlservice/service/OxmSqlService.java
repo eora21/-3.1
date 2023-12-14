@@ -1,4 +1,4 @@
-package user.sqlservice;
+package user.sqlservice.service;
 
 import jakarta.annotation.PostConstruct;
 import java.io.IOException;
@@ -6,8 +6,12 @@ import javax.xml.transform.stream.StreamSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.oxm.Unmarshaller;
+import user.sqlservice.reader.SqlReader;
+import user.sqlservice.exception.SqlRetrievalFailureException;
 import user.sqlservice.jaxb.SqlType;
 import user.sqlservice.jaxb.Sqlmap;
+import user.sqlservice.registry.HashMapSqlRegistry;
+import user.sqlservice.registry.SqlRegistry;
 
 public class OxmSqlService implements SqlService {
     private final BaseSqlService baseSqlService = new BaseSqlService();

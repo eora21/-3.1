@@ -1,4 +1,4 @@
-package user.sqlservice;
+package user.sqlservice.exception;
 
 public class SqlRetrievalFailureException extends RuntimeException {
     public SqlRetrievalFailureException(String message) {
