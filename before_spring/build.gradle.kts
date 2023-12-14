@@ -24,6 +24,7 @@ dependencies {
     implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.1")
     implementation("org.glassfish.jaxb:jaxb-runtime:4.0.4")
     implementation("org.springframework:spring-oxm:6.1.1")
+    implementation("com.h2database:h2:2.2.224")
 }
 
 tasks.test {
