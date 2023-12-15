@@ -10,10 +10,9 @@ class EmbeddedDbSqlRegistryTest extends AbstractUpdatableSqlRegistryTest {
 
     @Override
     protected UpdatableSqlRegistry createUpdatableSqlRegistry() {
-        EmbeddedDatabase db = new EmbeddedDatabaseBuilder()
+        db = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:db/schema.sql")
-                .addScript("classpath:db/data.sql")
                 .build();
 
         EmbeddedDbSqlRegistry embeddedDbSqlRegistry = new EmbeddedDbSqlRegistry();
