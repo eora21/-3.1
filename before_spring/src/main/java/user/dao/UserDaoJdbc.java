@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import user.domain.Level;
 import user.domain.User;
 import user.sqlservice.service.SqlService;
 
+@Component
 public class UserDaoJdbc implements UserDao {
     private final RowMapper<User> userMapper = (ResultSet rs, int rowNum) -> {
         User user = new User();
