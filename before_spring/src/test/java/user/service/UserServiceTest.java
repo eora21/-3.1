@@ -9,6 +9,7 @@ import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
 import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
 import context.AppContext;
+import context.TestAppContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +31,7 @@ import user.domain.User;
 import user.domain.UserLevelUpgradePolicy;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = AppContext.class)
+@ContextConfiguration(classes = {AppContext.class, TestAppContext.class})
 public class UserServiceTest {
     @Autowired
     UserService userService;
