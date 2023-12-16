@@ -1,5 +1,6 @@
 package user.dao;
 
+import jakarta.annotation.Resource;
 import java.sql.ResultSet;
 import java.util.List;
 import javax.sql.DataSource;
@@ -32,10 +33,7 @@ public class UserDaoJdbc implements UserDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public void setSqlService(SqlService sqlService) {
-        this.sqlService = sqlService;
-    }
-    @Autowired @Qualifier("dataSource")
+    @Resource
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
