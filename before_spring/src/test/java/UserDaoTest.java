@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
+import context.TestApplicationContext;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
@@ -25,7 +26,7 @@ import user.domain.Level;
 import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
+@ContextConfiguration(classes = TestApplicationContext.class)
 public class UserDaoTest {
     @Autowired
     ApplicationContext context;
