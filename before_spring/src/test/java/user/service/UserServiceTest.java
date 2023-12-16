@@ -31,7 +31,7 @@ import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestApplicationContext.class)
-class UserServiceTest {
+public class UserServiceTest {
     @Autowired
     UserService userService;
     @SpyBean
@@ -138,7 +138,7 @@ class UserServiceTest {
         assertThat(userService).isInstanceOf(java.lang.reflect.Proxy.class);
     }
 
-    static class TestUserService extends UserServiceImpl {
+    public static class TestUserService extends UserServiceImpl {
         @Override
         public List<User> getAll() {
             super.getAll()
