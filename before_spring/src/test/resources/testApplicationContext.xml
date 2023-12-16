@@ -55,6 +55,4 @@
     <bean id="testUserService" class="user.service.UserServiceTest$TestUserService" parent="userService"/>
 
     <tx:annotation-driven/>
-
-    <context:annotation-config />
 </beans>
