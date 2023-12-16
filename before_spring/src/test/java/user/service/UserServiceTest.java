@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import static user.domain.NormalLevelUpgradePolicy.MIN_LOGIN_COUNT_FOR_SILVER;
 import static user.domain.NormalLevelUpgradePolicy.MIN_RECOMMEND_COUNT_FOR_GOLD;
 
+import context.TestApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +30,7 @@ import user.domain.NormalLevelUpgradePolicy;
 import user.domain.User;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = "classpath:testApplicationContext.xml")
-@DirtiesContext
+@ContextConfiguration(classes = TestApplicationContext.class)
 class UserServiceTest {
     @Autowired
     UserService userService;
