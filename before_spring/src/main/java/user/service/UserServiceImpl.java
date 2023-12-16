@@ -4,6 +4,8 @@ import static user.domain.Level.BASIC;
 
 import java.util.List;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -11,18 +13,12 @@ import user.dao.UserDao;
 import user.domain.User;
 import user.domain.UserLevelUpgradePolicy;
 
+@Service("userService")
 public class UserServiceImpl implements UserService {
+    @Autowired
     private UserLevelUpgradePolicy levelUpgradePolicy;
+    @Autowired
     private UserDao userDao;
-
-
-    public void setLevelUpgradePolicy(UserLevelUpgradePolicy levelUpgradePolicy) {
-        this.levelUpgradePolicy = levelUpgradePolicy;
-    }
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     public void add(User user) {
