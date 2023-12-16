@@ -25,6 +25,7 @@ public class UserDaoJdbc implements UserDao {
         return user;
     };
 
+    @Autowired
     private SqlService sqlService;
 
     private JdbcTemplate jdbcTemplate;
