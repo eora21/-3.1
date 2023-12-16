@@ -7,41 +7,9 @@
 
     <context:property-placeholder location="classpath:config.properties"/>
 
-    <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="packagesToScan" value="user.sqlservice.jaxb"/>
-    </bean>
-
     <jdbc:embedded-database id="embeddedDatabase" type="H2" generate-name="true">
         <jdbc:script location="classpath:db/schema.sql"/>
     </jdbc:embedded-database>
-
-    <bean id="sqlRegistry" class="user.sqlservice.registry.EmbeddedDbSqlRegistry">
-        <property name="dataSource" ref="embeddedDatabase"/>
-    </bean>
-
-    <bean id="sqlService" class="user.sqlservice.service.OxmSqlService">
-        <property name="unmarshaller" ref="unmarshaller"/>
-        <property name="sqlRegistry" ref="sqlRegistry"/>
-    </bean>
-
-    <bean id="userDao" class="user.dao.UserDaoJdbc">
-        <property name="jdbcTemplate" ref="dataSource"/>
-        <property name="sqlService" ref="sqlService"/>
-    </bean>
-
-    <bean id="mailSender" class="user.domain.DummyMailSender"/>
-
-    <bean id="userLevelUpgradePolicy" class="user.domain.NormalLevelUpgradePolicy">
-        <constructor-arg name="userDao" ref="userDao"/>
-        <constructor-arg name="mailSender" ref="mailSender"/>
-    </bean>
-
-    <bean id="userService" class="user.service.UserServiceImpl">
-        <property name="userDao" ref="userDao"/>
-        <property name="levelUpgradePolicy" ref="userLevelUpgradePolicy"/>
-    </bean>
-
-    <bean id="testUserService" class="user.service.UserServiceTest$TestUserService" parent="userService"/>
 
     <tx:annotation-driven/>
 </beans>
