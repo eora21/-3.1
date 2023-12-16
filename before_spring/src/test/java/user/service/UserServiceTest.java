@@ -26,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import user.dao.UserDao;
 import user.domain.Level;
-import user.domain.NormalLevelUpgradePolicy;
 import user.domain.User;
+import user.domain.UserLevelUpgradePolicy;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestApplicationContext.class)
@@ -37,7 +37,7 @@ public class UserServiceTest {
     @SpyBean
     UserDao userDao;
     @SpyBean
-    NormalLevelUpgradePolicy userLevelUpgradePolicy;
+    UserLevelUpgradePolicy userLevelUpgradePolicy;
     @MockBean
     MailSender mailSender;
     @Autowired
