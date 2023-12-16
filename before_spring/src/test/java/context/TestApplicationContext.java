@@ -34,6 +34,8 @@ import user.sqlservice.service.SqlService;
 public class TestApplicationContext {
     @Autowired
     UserDao userDao;
+    @Autowired
+    UserService userService;
 
     @Bean
     public DataSource dataSource() {
@@ -97,18 +99,7 @@ public class TestApplicationContext {
     }
 
     @Bean
-    public UserService userService() {
-        UserServiceImpl userServiceImpl = new UserServiceImpl();
-        userServiceImpl.setUserDao(userDao);
-        userServiceImpl.setLevelUpgradePolicy(userLevelUpgradePolicy());
-        return userServiceImpl;
-    }
-
-    @Bean
     public UserService testUserService() {
-        TestUserService testUserService = new TestUserService();
-        testUserService.setUserDao(userDao);
-        testUserService.setLevelUpgradePolicy(userLevelUpgradePolicy());
-        return testUserService;
+        return new TestUserService();
     }
 }
