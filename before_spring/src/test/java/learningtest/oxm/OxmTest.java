@@ -2,7 +2,7 @@ package learningtest.oxm;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import context.TestApplicationContext;
+import context.AppContext;
 import java.io.IOException;
 import java.util.List;
 import javax.xml.transform.stream.StreamSource;
@@ -17,7 +17,7 @@ import user.sqlservice.jaxb.SqlType;
 import user.sqlservice.jaxb.Sqlmap;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestApplicationContext.class)
+@ContextConfiguration(classes = AppContext.class)
 public class OxmTest {
     @Autowired
     Unmarshaller unmarshaller;

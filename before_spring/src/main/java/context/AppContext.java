@@ -21,8 +21,6 @@ import user.domain.DummyMailSender;
 import user.domain.NormalLevelUpgradePolicy;
 import user.domain.UserLevelUpgradePolicy;
 import user.service.UserService;
-import user.service.UserServiceImpl;
-import user.service.UserServiceTest.TestUserService;
 import user.sqlservice.registry.EmbeddedDbSqlRegistry;
 import user.sqlservice.registry.SqlRegistry;
 import user.sqlservice.service.OxmSqlService;
@@ -31,7 +29,7 @@ import user.sqlservice.service.SqlService;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = "user")
-public class TestApplicationContext {
+public class AppContext {
     @Autowired
     UserDao userDao;
     @Autowired
@@ -96,10 +94,5 @@ public class TestApplicationContext {
     @Bean
     public UserLevelUpgradePolicy userLevelUpgradePolicy() {
         return new NormalLevelUpgradePolicy(userDao, mailSender());
-    }
-
-    @Bean
-    public UserService testUserService() {
-        return new TestUserService();
     }
 }
