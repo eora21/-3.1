@@ -18,7 +18,7 @@
         <property name="packagesToScan" value="user.sqlservice.jaxb"/>
     </bean>
 
-    <jdbc:embedded-database id="embeddedDatabase" type="H2">
+    <jdbc:embedded-database id="embeddedDatabase" type="H2" generate-name="true">
         <jdbc:script location="classpath:db/schema.sql"/>
     </jdbc:embedded-database>
 
