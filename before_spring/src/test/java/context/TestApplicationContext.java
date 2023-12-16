@@ -5,7 +5,6 @@ import info.Info;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -53,7 +52,6 @@ public class TestApplicationContext {
     @Bean
     public UserDao userDao() {
         UserDaoJdbc userDaoJdbc = new UserDaoJdbc();
-        userDaoJdbc.setJdbcTemplate(dataSource());
         userDaoJdbc.setSqlService(sqlService());
         return userDaoJdbc;
     }
