@@ -32,7 +32,7 @@
     </bean>
 
     <bean id="userDao" class="user.dao.UserDaoJdbc">
-        <property name="jdbcTemplate" ref="dataSource"/>
+        <property name="dataSource" ref="dataSource"/>
         <property name="sqlService" ref="sqlService"/>
     </bean>
 
