@@ -3,6 +3,8 @@ package user.dao;
 import java.sql.ResultSet;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import user.domain.Level;
@@ -30,8 +32,8 @@ public class UserDaoJdbc implements UserDao {
     public void setSqlService(SqlService sqlService) {
         this.sqlService = sqlService;
     }
-
-    public void setJdbcTemplate(DataSource dataSource) {
+    @Autowired @Qualifier("dataSource")
+    public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
