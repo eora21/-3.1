@@ -4,12 +4,15 @@ import info.Info;
 import java.sql.Driver;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.PropertySourcesPlaceholdersResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -28,8 +31,14 @@ import user.service.UserService;
 @Import(SqlServiceContext.class)
 @PropertySource("/config.properties")
 public class AppContext {
-    @Autowired
-    Environment environment;
+    @Value("${db.driverClass}")
+    Class<? extends Driver> driverClass;
+    @Value("${db.url}")
+    String url;
+    @Value("${db.username}")
+    String username;
+    @Value("${db.password}")
+    String password;
     @Autowired
     UserDao userDao;
     @Autowired
@@ -39,17 +48,12 @@ public class AppContext {
 
     @Bean
     public DataSource dataSource() {
-        try {
-            SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-            dataSource.setDriverClass(
-                    (Class<? extends Driver>) Class.forName(environment.getProperty("db.driverClass")));
-            dataSource.setUrl(environment.getProperty("db.url"));
-            dataSource.setUsername(environment.getProperty("db.username"));
-            dataSource.setPassword(environment.getProperty("db.password"));
-            return dataSource;
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        dataSource.setDriverClass(driverClass);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
     }
 
     @Bean
