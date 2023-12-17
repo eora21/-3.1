@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mail.MailSender;
@@ -45,6 +46,8 @@ public class UserServiceTest {
     MailSender mailSender;
     @Autowired
     UserService testUserService;
+    @Autowired
+    DefaultListableBeanFactory beanFactory;
 
     List<User> users = List.of(
             new User("basic", "브론즈", "password", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER - 1, 0, "basic@email"),
@@ -168,5 +171,12 @@ public class UserServiceTest {
     void transactionSync() {
         testUserService.deleteAll();
         testUserService.add(users.get(0));
+    }
+
+    @Test
+    void beans() {
+        for (String beanDefinitionName : beanFactory.getBeanDefinitionNames()) {
+            System.out.println(beanDefinitionName + ":\t" + beanFactory.getBean(beanDefinitionName).getClass().getName());
+        }
     }
 }
