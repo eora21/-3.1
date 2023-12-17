@@ -21,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ import user.domain.UserLevelUpgradePolicy;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AppContext.class, TestAppContext.class})
+@ActiveProfiles("test")
 public class UserServiceTest {
     @Autowired
     UserService userService;
