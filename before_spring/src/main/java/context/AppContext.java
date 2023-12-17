@@ -1,7 +1,7 @@
 package context;
 
-import com.mysql.cj.jdbc.Driver;
 import info.Info;
+import java.sql.Driver;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.mail.MailSender;
@@ -24,7 +26,10 @@ import user.service.UserService;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "user")
 @Import(SqlServiceContext.class)
+@PropertySource("/config.properties")
 public class AppContext {
+    @Autowired
+    Environment environment;
     @Autowired
     UserDao userDao;
     @Autowired
@@ -34,12 +39,17 @@ public class AppContext {
 
     @Bean
     public DataSource dataSource() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(Driver.class);
-        dataSource.setUrl("jdbc:mysql://localhost/toby_spring");
-        dataSource.setUsername(Info.MYSQL_ID.getValue());
-        dataSource.setPassword(Info.MYSQL_PASSWORD.getValue());
-        return dataSource;
+        try {
+            SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+            dataSource.setDriverClass(
+                    (Class<? extends Driver>) Class.forName(environment.getProperty("db.driverClass")));
+            dataSource.setUrl(environment.getProperty("db.url"));
+            dataSource.setUsername(environment.getProperty("db.username"));
+            dataSource.setPassword(environment.getProperty("db.password"));
+            return dataSource;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean
