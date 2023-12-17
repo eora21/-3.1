@@ -11,11 +11,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.mail.MailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import user.dao.UserDao;
-import user.domain.DummyMailSender;
 import user.domain.NormalLevelUpgradePolicy;
 import user.domain.UserLevelUpgradePolicy;
 import user.service.UserService;
@@ -23,12 +21,14 @@ import user.service.UserService;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = "user")
-@Import(SqlServiceContext.class)
+@Import({SqlServiceContext.class, ProductionAppContext.class, LocalAppContext.class})
 public class AppContext {
     @Autowired
     UserDao userDao;
     @Autowired
     UserService userService;
+    @Autowired
+    MailSender mailSender;
 
     @Bean
     public DataSource dataSource() {
@@ -48,14 +48,7 @@ public class AppContext {
     }
 
     @Bean
-    public MailSender mailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("mail.mycompany.com");
-        return mailSender;
-    }
-
-    @Bean
-    public UserLevelUpgradePolicy userLevelUpgradePolicy() {
-        return new NormalLevelUpgradePolicy(userDao, mailSender());
+    public UserLevelUpgradePolicy userLevelUpgradePolicy(UserDao userDao, MailSender mailSender) {
+        return new NormalLevelUpgradePolicy(userDao, mailSender);
     }
 }
