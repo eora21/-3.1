@@ -24,6 +24,8 @@ import user.dao.UserDao;
 import user.domain.NormalLevelUpgradePolicy;
 import user.domain.UserLevelUpgradePolicy;
 import user.service.UserService;
+import user.sqlservice.config.SqlMapConfig;
+import user.sqlservice.config.UserSqlMapConfig;
 
 @Configuration
 @EnableTransactionManagement
@@ -66,6 +68,11 @@ public class AppContext {
     @Bean
     public UserLevelUpgradePolicy userLevelUpgradePolicy(UserDao userDao, MailSender mailSender) {
         return new NormalLevelUpgradePolicy(userDao, mailSender);
+    }
+
+    @Bean
+    public SqlMapConfig sqlMapConfig() {
+        return new UserSqlMapConfig();
     }
 
     @Configuration
