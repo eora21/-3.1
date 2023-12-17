@@ -22,12 +22,13 @@ import user.dao.UserDao;
 import user.domain.NormalLevelUpgradePolicy;
 import user.domain.UserLevelUpgradePolicy;
 import user.service.UserService;
+import user.sqlservice.annotation.EnableSqlService;
 import user.sqlservice.config.SqlMapConfig;
 
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = "user")
-@Import(SqlServiceContext.class)
+@EnableSqlService
 @PropertySource("/config.properties")
 public class AppContext implements SqlMapConfig {
     @Value("${db.driverClass}")
