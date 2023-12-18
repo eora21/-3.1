@@ -3,7 +3,9 @@ package com.example.ioc_di.container;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.ioc_di.container.pojo.Hello;
+import com.example.ioc_di.container.pojo.StringPrinter;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.support.StaticApplicationContext;
 
@@ -24,5 +26,23 @@ class ContainerTest {
         assertThat(hello2).isNotNull();
 
         assertThat(context.getBeanFactory().getBeanDefinitionCount()).isEqualTo(2);
+    }
+
+    @Test
+    void registerBeanWithDependency() {
+        StaticApplicationContext context = new StaticApplicationContext();
+
+        context.registerBeanDefinition("printer", new RootBeanDefinition(StringPrinter.class));
+
+        RootBeanDefinition helloDef = new RootBeanDefinition(Hello.class);
+        helloDef.getPropertyValues().addPropertyValue("name", "Spring");
+        helloDef.getPropertyValues().addPropertyValue("printer", new RuntimeBeanReference("printer"));
+
+        context.registerBeanDefinition("hello", helloDef);
+
+        Hello hello = context.getBean("hello", Hello.class);
+        hello.print();
+
+        assertThat(context.getBean("printer").toString()).isEqualTo("Hello Spring");
     }
 }
