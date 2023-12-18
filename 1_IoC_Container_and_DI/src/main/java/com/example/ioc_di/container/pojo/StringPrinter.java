@@ -6,4 +6,9 @@ public class StringPrinter implements Printer {
     public void print(String message) {
         stringBuffer.append(message);
     }
+
+    @Override
+    public String toString() {
+        return stringBuffer.toString();
+    }
 }
