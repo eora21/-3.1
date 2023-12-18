@@ -6,9 +6,11 @@ import com.example.ioc_di.container.pojo.Hello;
 import com.example.ioc_di.container.pojo.StringPrinter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
+import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
 
 class ContainerTest {
@@ -55,6 +57,16 @@ class ContainerTest {
         reader.loadBeanDefinitions("beanDefinition.xml");  // 클래스패스 리소스로 인식
 
         context.refresh();
+
+        Hello hello = context.getBean("hello", Hello.class);
+        hello.print();
+
+        assertThat(context.getBean("printer").toString()).isEqualTo("Hello Spring");
+    }
+
+    @Test
+    void genericXmlApplicationContext() {
+        GenericApplicationContext context = new GenericXmlApplicationContext("beanDefinition.xml");
 
         Hello hello = context.getBean("hello", Hello.class);
         hello.print();
