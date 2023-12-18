@@ -3,10 +3,10 @@ package com.example.ioc_di.container;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.ioc_di.container.pojo.Hello;
+import com.example.ioc_di.container.pojo.Printer;
 import com.example.ioc_di.container.pojo.StringPrinter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
-import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
@@ -72,5 +72,23 @@ class ContainerTest {
         hello.print();
 
         assertThat(context.getBean("printer").toString()).isEqualTo("Hello Spring");
+    }
+
+    @Test
+    void contextHierarchy() {
+        GenericXmlApplicationContext parentContext = new GenericXmlApplicationContext("parentContext.xml");
+        GenericApplicationContext childContext = new GenericApplicationContext(parentContext);
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childContext);
+        reader.loadBeanDefinitions("childContext.xml");
+        childContext.refresh();
+
+        Printer printer = childContext.getBean("printer", Printer.class);
+        assertThat(printer).isNotNull();
+
+        Hello hello = childContext.getBean("hello", Hello.class);
+        assertThat(hello).isNotNull();
+
+        hello.print();
+        assertThat(printer.toString()).isEqualTo("Hello Child");
     }
 }
