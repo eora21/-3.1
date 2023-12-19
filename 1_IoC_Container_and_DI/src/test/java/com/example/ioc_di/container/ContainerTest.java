@@ -54,7 +54,7 @@ class ContainerTest {
     void genericApplicationContext() {
         GenericApplicationContext context = new GenericApplicationContext();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
-        reader.loadBeanDefinitions("beanDefinition.xml");  // 클래스패스 리소스로 인식
+        reader.loadBeanDefinitions("definition/beanDefinition.xml");  // 클래스패스 리소스로 인식
 
         context.refresh();
 
@@ -66,7 +66,7 @@ class ContainerTest {
 
     @Test
     void genericXmlApplicationContext() {
-        GenericApplicationContext context = new GenericXmlApplicationContext("beanDefinition.xml");
+        GenericApplicationContext context = new GenericXmlApplicationContext("definition/beanDefinition.xml");
 
         Hello hello = context.getBean("hello", Hello.class);
         hello.print();
@@ -76,10 +76,10 @@ class ContainerTest {
 
     @Test
     void contextHierarchy() {
-        GenericXmlApplicationContext parentContext = new GenericXmlApplicationContext("parentContext.xml");
+        GenericXmlApplicationContext parentContext = new GenericXmlApplicationContext("hierarchy/parentContext.xml");
         GenericApplicationContext childContext = new GenericApplicationContext(parentContext);
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(childContext);
-        reader.loadBeanDefinitions("childContext.xml");
+        reader.loadBeanDefinitions("hierarchy/childContext.xml");
         childContext.refresh();
 
         Printer printer = childContext.getBean("printer", Printer.class);
