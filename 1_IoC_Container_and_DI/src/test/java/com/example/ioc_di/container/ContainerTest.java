@@ -2,6 +2,7 @@ package com.example.ioc_di.container;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.ioc_di.bean.AnnotatedHello;
 import com.example.ioc_di.container.pojo.Hello;
 import com.example.ioc_di.container.pojo.Printer;
 import com.example.ioc_di.container.pojo.StringPrinter;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
@@ -90,5 +92,12 @@ class ContainerTest {
 
         hello.print();
         assertThat(printer.toString()).isEqualTo("Hello Child");
+    }
+
+    @Test
+    void simpleBeanScanning() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("com.example.ioc_di.bean");
+        AnnotatedHello hello = context.getBean("annotatedHello", AnnotatedHello.class);
+        assertThat(hello).isNotNull();
     }
 }
