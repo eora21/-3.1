@@ -14,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.test.util.ReflectionTestUtils;
 
 class ContainerTest {
     @Test
@@ -111,5 +112,25 @@ class ContainerTest {
         assertThat(config).isNotNull();
 
         assertThat(config.annotatedHello()).isEqualTo(hello);
+    }
+
+    @Test
+    void normalBeanMetaInfoClass() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(NormalBeanMetaInfo.class);
+        NormalBeanMetaInfo normalBeanMetaInfo = context.getBean("normalBeanMetaInfo", NormalBeanMetaInfo.class);
+        assertThat(normalBeanMetaInfo).isNotNull();  // 일반 클래스여도 빈으로 등록된다!
+
+        Hello hello = context.getBean("hello", Hello.class);
+        assertThat(hello).isNotNull();
+
+        Hello hello2 = context.getBean("hello2", Hello.class);
+        assertThat(hello2).isNotNull();
+
+        Object printer = ReflectionTestUtils.getField(hello, "printer");
+        Object printer2 = ReflectionTestUtils.getField(hello2, "printer");
+
+        System.out.println(printer);
+        System.out.println(printer2);
+        assertThat(printer).isNotEqualTo(printer2);
     }
 }
