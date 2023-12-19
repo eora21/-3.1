@@ -6,12 +6,6 @@ import com.example.ioc_di.container.pojo.Printer;
 import org.springframework.context.annotation.Bean;
 
 public class SelfDINormalBeanMetaInfo {
-    private Printer printer;
-
-    public void setPrinter(Printer printer) {
-        this.printer = printer;
-    }
-
     // 외부에서 메서드를 동작시킬 경우 새 객체가 생성되므로 모두 private로 변경
 
     @Bean
