@@ -133,4 +133,24 @@ class ContainerTest {
         System.out.println(printer2);
         assertThat(printer).isNotEqualTo(printer2);
     }
+
+    @Test
+    void selfDINormalBeanMetaInfoClass() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SelfDINormalBeanMetaInfo.class);
+        SelfDINormalBeanMetaInfo selfDINormalBeanMetaInfo = context.getBean("selfDINormalBeanMetaInfo", SelfDINormalBeanMetaInfo.class);
+        assertThat(selfDINormalBeanMetaInfo).isNotNull();
+
+        Hello hello = context.getBean("hello", Hello.class);
+        assertThat(hello).isNotNull();
+
+        Hello hello2 = context.getBean("hello2", Hello.class);
+        assertThat(hello2).isNotNull();
+
+        Object printer = ReflectionTestUtils.getField(hello, "printer");
+        Object printer2 = ReflectionTestUtils.getField(hello2, "printer");
+
+        System.out.println(printer);
+        System.out.println(printer2);
+        assertThat(printer).isEqualTo(printer2);
+    }
 }
