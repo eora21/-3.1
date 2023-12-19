@@ -100,4 +100,16 @@ class ContainerTest {
         AnnotatedHello hello = context.getBean("annotatedHello", AnnotatedHello.class);
         assertThat(hello).isNotNull();
     }
+
+    @Test
+    void classScanning() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotatedHelloConfig.class);
+        AnnotatedHello hello = context.getBean("annotatedHello", AnnotatedHello.class);
+        assertThat(hello).isNotNull();
+
+        AnnotatedHelloConfig config = context.getBean("annotatedHelloConfig", AnnotatedHelloConfig.class);
+        assertThat(config).isNotNull();
+
+        assertThat(config.annotatedHello()).isEqualTo(hello);
+    }
 }
