@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <!--
+            기본 지정되는 xml 설정파일 위치는 /WEB-INF/applicationContext.xml
+            여러 설정파일을 참고하고 싶다면 줄바꿈 혹은 공백으로 지정 가능
+            /WEB-INF/**/*Context.xml 처럼 패턴으로도 지정 가능
+            /WEB-INF는 웹 애플리케이션의 서블릿 리소스 패스
+            클래스 패스로부터 찾고 싶다면 classpath: 를 붙여주면 된다
+        -->
+        <param-value>
+            /WEB-INF/daoContext.xml
+            /WEB-INF/applicationContext.xml
+        </param-value>
+    </context-param>
+    <!--
+        기본 생성되는 context는 XmlWebApplicationContext
+        AnnotationConfigWebApplicationContext를 사용하면 contextConfigLocation을 무조건 지정해줘야 하며
+        xml의 위치가 아니라 설정 메타정보를 담고 있는 클래스 또는 빈 스캐닝 패키지를 지정할 수 있다
+    -->
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <!--
+        servlet-name으로 지정한 이름에 -servlet을 붙여서 디폴트 설정파일의 위치를 정한다
+        spring으로 정했으니 spring-servlet.xml에서 설정을 찾는다
+        이를 변경하고 싶다면 init-param 태그를 이용한다
+        루트 애플리케이션 컨텍스트를 사용하지 않고 단일 서블릿 컨텍스트 구성 방법을 사용하는 경우에 init-param 태그를 이용하며,
+        여러 서블릿 설정파일을 선언해줄 수 있다
+
+        load-on-startup은 생략하거나 음수라면 서블릿 컨테이너가 임의로 정한 시점에서 만들어진다
+        0 이상의 값을 넣으면 웹 애플리케이션이 시작되는 시점에서 서블릿을 로딩하고 초기화한다
+        작은 수를 가진 서블릿이 우선적으로 만들어진다
+    -->
+    <servlet>
+        <servlet-name>spring</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                /WEB-INF/applicationContext.xml
+                /WEB-INF/spring-servlet.xml
+            </param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+</web-app>
