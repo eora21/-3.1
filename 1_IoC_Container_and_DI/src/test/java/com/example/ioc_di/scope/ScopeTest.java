@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean;
+import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
@@ -81,6 +82,30 @@ public class ScopeTest {
 
         PrototypeBean prototypeBean1 = (PrototypeBean) prototypeBeanFactory.getObject();
         PrototypeBean prototypeBean2 = (PrototypeBean) prototypeBeanFactory.getObject();
+
+        assertThat(prototypeBean1).isNotEqualTo(prototypeBean2);
+    }
+
+    interface PrototypeBeanFactory {
+        PrototypeBean newInstance();  // 메서드명은 어떻게 지어도 상관 없음
+    }
+
+    static class ServiceLocatorFactoryBeanConfig {
+        @Bean
+        public ServiceLocatorFactoryBean prototypeBeanFactory() {
+            ServiceLocatorFactoryBean serviceLocatorFactoryBean = new ServiceLocatorFactoryBean();
+            serviceLocatorFactoryBean.setServiceLocatorInterface(PrototypeBeanFactory.class);
+            return serviceLocatorFactoryBean;
+        }
+    }
+
+    @Test
+    void prototypeScopeWithServiceLocatorFactoryBean() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(PrototypeBean.class, ServiceLocatorFactoryBeanConfig.class);
+        PrototypeBeanFactory prototypeBeanFactory = context.getBean("prototypeBeanFactory", PrototypeBeanFactory.class);
+
+        PrototypeBean prototypeBean1 = prototypeBeanFactory.newInstance();
+        PrototypeBean prototypeBean2 = prototypeBeanFactory.newInstance();
 
         assertThat(prototypeBean1).isNotEqualTo(prototypeBean2);
     }
