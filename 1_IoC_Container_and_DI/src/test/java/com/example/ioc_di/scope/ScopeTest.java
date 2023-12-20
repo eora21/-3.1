@@ -7,6 +7,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -104,6 +105,22 @@ public class ScopeTest {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(PrototypeBean.class, ServiceLocatorFactoryBeanConfig.class);
         PrototypeBeanFactory prototypeBeanFactory = context.getBean("prototypeBeanFactory", PrototypeBeanFactory.class);
 
+        PrototypeBean prototypeBean1 = prototypeBeanFactory.newInstance();
+        PrototypeBean prototypeBean2 = prototypeBeanFactory.newInstance();
+
+        assertThat(prototypeBean1).isNotEqualTo(prototypeBean2);
+    }
+
+    static abstract class AbstractPrototypeBeanFactory {
+        @Lookup
+        abstract public PrototypeBean newInstance();
+    }
+
+    @Test
+    void prototypeScopeWithLookupMethod() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(PrototypeBean.class, AbstractPrototypeBeanFactory.class);
+
+        AbstractPrototypeBeanFactory prototypeBeanFactory = context.getBean(AbstractPrototypeBeanFactory.class);
         PrototypeBean prototypeBean1 = prototypeBeanFactory.newInstance();
         PrototypeBean prototypeBean2 = prototypeBeanFactory.newInstance();
 
