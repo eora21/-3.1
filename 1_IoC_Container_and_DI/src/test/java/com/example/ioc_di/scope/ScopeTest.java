@@ -5,9 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 public class ScopeTest {
     static class SingletonBean {
@@ -32,6 +36,7 @@ public class ScopeTest {
     }
 
     @Scope("prototype")
+    @Component("prototypeBean")
     static class PrototypeBean {
     }
 
@@ -58,5 +63,25 @@ public class ScopeTest {
 
         beans.add(context.getBean(PrototypeClientBean.class).bean2);
         assertThat(beans.size()).isEqualTo(4);
+    }
+
+    static class ObjectFactoryConfig {
+        @Bean
+        public ObjectFactoryCreatingFactoryBean prototypeBeanFactory() {
+            ObjectFactoryCreatingFactoryBean factoryBean = new ObjectFactoryCreatingFactoryBean();
+            factoryBean.setTargetBeanName("prototypeBean");
+            return factoryBean;
+        }
+    }
+
+    @Test
+    void prototypeScopeWithObjectFactory() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(PrototypeBean.class, ObjectFactoryConfig.class);
+        ObjectFactory<?> prototypeBeanFactory = context.getBean("prototypeBeanFactory", ObjectFactory.class);
+
+        PrototypeBean prototypeBean1 = (PrototypeBean) prototypeBeanFactory.getObject();
+        PrototypeBean prototypeBean2 = (PrototypeBean) prototypeBeanFactory.getObject();
+
+        assertThat(prototypeBean1).isNotEqualTo(prototypeBean2);
     }
 }
