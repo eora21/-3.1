@@ -2,10 +2,11 @@ package com.example.ioc_di.scope;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.ioc_di.util.BeanDefinitionUtils;
+import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import java.util.HashSet;
 import java.util.Set;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,5 +149,11 @@ public class ScopeTest {
         PrototypeBean prototypeBean2 = beanFactory.newInstance();
 
         assertThat(prototypeBean1).isNotEqualTo(prototypeBean2);
+    }
+
+    @Test
+    void BeanRoles() {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(PrototypeBean.class, ProviderPrototypeBeanFactory.class);
+        BeanDefinitionUtils.printBeanDefinitions(context);
     }
 }
