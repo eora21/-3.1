@@ -9,9 +9,9 @@ import org.springframework.mock.web.MockServletConfig;
 import org.springframework.web.servlet.ModelAndView;
 import toby.web_mvc.HelloSpring;
 
-class ConfigurableDispatcherServletTest {
+class HelloControllerTest {
     @Test
-    void configurableDispatcherServletTest() throws Exception {
+    void helloController() throws Exception {
         ConfigurableDispatcherServlet servlet = new ConfigurableDispatcherServlet();
         servlet.setLocations("spring-servlet.xml");
         servlet.setClasses(HelloSpring.class);
