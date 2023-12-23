@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.glassfish:javax.servlet.jsp:3.2-b06'
     implementation 'org.projectlombok:lombok:1.18.30'
     implementation 'org.springframework:spring-mock:2.0.8'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
 }
 
 test {
