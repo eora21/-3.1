@@ -29,6 +29,7 @@ dependencies {
     implementation 'org.springframework:spring-webmvc:3.1.4.RELEASE'
     implementation 'org.glassfish:javax.servlet.jsp:3.2-b06'
     implementation 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.springframework:spring-mock:2.0.8'
 }
 
 test {
