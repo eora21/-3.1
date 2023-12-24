@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import toby.web_mvc.HelloSpring;
 
-public class SimpleHelloControllerTest extends AbstractDispatcherServletTest {
+public class ExtendServletTest extends AbstractDispatcherServletTest {
     @Test
     void helloController() throws Exception {
         ModelAndView mav = setLocations("spring-servlet.xml")
