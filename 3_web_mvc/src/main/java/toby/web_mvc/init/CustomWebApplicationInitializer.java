@@ -14,11 +14,8 @@ public class CustomWebApplicationInitializer implements WebApplicationInitialize
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 //        rootContext.scan("@Configuration annotation class");
 
-        ContextLoaderListener listener = new ContextLoaderListener(rootContext);
-        servletContext.addListener(listener);
-
         ServletRegistration.Dynamic dispatcher =
-                servletContext.addServlet("spring", new DispatcherServlet());
+                servletContext.addServlet("spring", new DispatcherServlet(rootContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/app/*");
     }
