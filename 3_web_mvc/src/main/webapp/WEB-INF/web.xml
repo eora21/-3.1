@@ -8,6 +8,16 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+<!--    <context-param>-->
+<!--        <param-name>contextClass</param-name>-->
+<!--        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>-->
+<!--    </context-param>-->
+
+<!--    <context-param>-->
+<!--        <param-name>contextConfigLocation</param-name>-->
+<!--        <param-value>@Configuration 어노테이션이 달린 클래스 경로</param-value>-->
+<!--    </context-param>-->
+
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
