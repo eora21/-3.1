@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ConvertController {
     @GetMapping("/search")
-    public Level search(@RequestParam Level level) {
-        return level;
+    public String search(@RequestParam("level") Level level) {
+        return level.name();
     }
 }
