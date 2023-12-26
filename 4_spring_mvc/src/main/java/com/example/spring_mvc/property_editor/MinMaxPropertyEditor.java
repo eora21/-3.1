@@ -11,15 +11,21 @@ public class MinMaxPropertyEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
         int value = Integer.parseInt(text);
-
-        if (value < min) {
-            value = min;
-        }
-
-        if (max < value) {
-            value = max;
-        }
-
         setValue(value);
+    }
+
+    @Override
+    public void setValue(Object value) {
+        int intValue = (int) value;
+
+        if (intValue < min) {
+            intValue = min;
+        }
+
+        if (max < intValue) {
+            intValue = max;
+        }
+
+        super.setValue(intValue);
     }
 }
