@@ -1,5 +1,6 @@
 package com.example.spring_mvc.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@WebMvcTest(ConvertController.class)
+@WebMvcTest({ConvertController.class})
 class ConvertControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -33,5 +34,13 @@ class ConvertControllerTest {
         mockMvc.perform(request)
                 .andExpect(jsonPath("$.id").value(100))
                 .andExpect(jsonPath("$.age").value(200));
+    }
+
+    @Test
+    void level() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/search?level={level}", 1);
+        mockMvc.perform(request)
+                .andExpect(content().string("BRONZE"));
     }
 }
