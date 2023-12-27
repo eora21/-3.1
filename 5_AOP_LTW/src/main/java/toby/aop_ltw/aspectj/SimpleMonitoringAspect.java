@@ -3,12 +3,17 @@ package toby.aop_ltw.aspectj;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class SimpleMonitoringAspect {
-    @Around("execution(* hello(..))")
+    @Pointcut("within(toby.aop_ltw.controller..*)")
+    private void controllerLayer() {
+    }
+
+    @Around("controllerLayer()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
