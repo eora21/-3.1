@@ -1,8 +1,10 @@
 package toby.aop_ltw.aspectj;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
@@ -41,11 +43,25 @@ public class SimpleMonitoringAspect {
     private void controllerBean() {
     }
 
-    @Around("controllerBean()")
+    @Pointcut("bean(greetingController)")
+    private void greetingControllerAOP() {
+    }
+
+    @Around("methodAnnotation()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
         System.out.println("after");
         return ret;
+    }
+
+    @Before("greetingControllerAOP()")
+    public void before(JoinPoint jp) throws Throwable {
+        String before = "[before]: ";
+        System.out.println(before + jp.getSignature().getDeclaringTypeName());
+        System.out.println(before + jp.getSignature().getName());
+        for (Object arg : jp.getArgs()) {
+            System.out.println(before + arg);
+        }
     }
 }
