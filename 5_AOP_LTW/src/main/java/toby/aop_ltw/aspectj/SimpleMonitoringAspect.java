@@ -21,7 +21,11 @@ public class SimpleMonitoringAspect {
     public void controllerAnnotation() {
     }
 
-    @Around("controllerAnnotation()")
+    @Pointcut("execution(* toby..* (..)) && @target(toby.aop_ltw.controller.HelloAnnotation)")
+    public void helloAnnotation() {
+    }
+
+    @Around("helloAnnotation()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
