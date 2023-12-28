@@ -17,7 +17,11 @@ public class SimpleMonitoringAspect {
     private void CGLibProxy() {
     }
 
-    @Around("CGLibProxy()")
+    @Pointcut("execution(* toby..* (..)) && @target(org.springframework.web.bind.annotation.RestController)")
+    public void controllerAnnotation() {
+    }
+
+    @Around("controllerAnnotation()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
