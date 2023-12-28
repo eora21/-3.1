@@ -25,7 +25,11 @@ public class SimpleMonitoringAspect {
     public void helloAnnotation() {
     }
 
-    @Around("helloAnnotation()")
+    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
+    public void controllerAnnotationExactly() {
+    }
+
+    @Around("controllerAnnotationExactly()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
