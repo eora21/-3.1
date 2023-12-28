@@ -13,7 +13,7 @@ public class SimpleMonitoringAspect {
     private void controllerLayer() {
     }
 
-    @Pointcut("this(toby.aop_ltw.controller.Hello)")
+    @Pointcut("this(toby.aop_ltw.controller.HelloController)")
     private void JDKDynamicProxy() {
     }
 
