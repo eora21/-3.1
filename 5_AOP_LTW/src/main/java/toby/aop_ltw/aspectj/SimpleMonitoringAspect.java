@@ -2,7 +2,9 @@ package toby.aop_ltw.aspectj;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -69,5 +71,10 @@ public class SimpleMonitoringAspect {
     @AfterReturning(value = "greetingControllerAOP()", returning = "greeting")
     public void afterReturning(String greeting) throws Throwable {
         System.out.println("[afterReturning]: " + greeting);
+    }
+
+    @AfterThrowing(value = "greetingControllerAOP()", throwing = "ex")
+    public void afterThrowing(IllegalArgumentException ex) {
+        System.out.println("[afterThrowing]: " + ex.getClass());
     }
 }
