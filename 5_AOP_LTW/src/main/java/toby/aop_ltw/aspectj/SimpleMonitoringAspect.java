@@ -13,7 +13,7 @@ public class SimpleMonitoringAspect {
     private void controllerLayer() {
     }
 
-    @Pointcut("this(toby.aop_ltw.controller.HelloController)")
+    @Pointcut("this(toby.aop_ltw.controller.HelloController) && args()")
     private void CGLibProxy() {
     }
 
