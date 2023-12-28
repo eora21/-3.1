@@ -77,4 +77,9 @@ public class SimpleMonitoringAspect {
     public void afterThrowing(IllegalArgumentException ex) {
         System.out.println("[afterThrowing]: " + ex.getClass());
     }
+
+    @After(value = "greetingControllerAOP()")
+    public void after() {
+        System.out.println("[after]: " + "리소스 반환 및 메서드 실행 결과 로그 등, finally 역할");
+    }
 }
