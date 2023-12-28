@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController implements  Hello {
+public class HelloController extends SuperController implements Hello {
     @GetMapping("/hello")
     public Map<String, String> hello() {
         return Map.of("greeting", "hello");
