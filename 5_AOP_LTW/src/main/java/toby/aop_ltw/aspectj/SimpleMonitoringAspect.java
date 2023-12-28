@@ -2,6 +2,7 @@ package toby.aop_ltw.aspectj;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -63,5 +64,10 @@ public class SimpleMonitoringAspect {
         for (Object arg : jp.getArgs()) {
             System.out.println(before + arg);
         }
+    }
+
+    @AfterReturning(value = "greetingControllerAOP()", returning = "greeting")
+    public void afterReturning(String greeting) throws Throwable {
+        System.out.println("[afterReturning]: " + greeting);
     }
 }
