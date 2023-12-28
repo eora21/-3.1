@@ -33,7 +33,11 @@ public class SimpleMonitoringAspect {
     public void parameterAnnotation() {
     }
 
-    @Around("parameterAnnotation()")
+    @Pointcut("@annotation(toby.aop_ltw.annotation.MethodAnnotation)")
+    public void methodAnnotation() {
+    }
+
+    @Around("methodAnnotation()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
