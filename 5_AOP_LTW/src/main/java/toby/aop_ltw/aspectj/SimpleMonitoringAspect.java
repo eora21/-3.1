@@ -13,7 +13,11 @@ public class SimpleMonitoringAspect {
     private void controllerLayer() {
     }
 
-    @Around("controllerLayer()")
+    @Pointcut("this(toby.aop_ltw.controller.Hello)")
+    private void JDKDynamicProxy() {
+    }
+
+    @Around("JDKDynamicProxy()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
