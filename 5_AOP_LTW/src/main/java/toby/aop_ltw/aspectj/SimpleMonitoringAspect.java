@@ -21,7 +21,7 @@ public class SimpleMonitoringAspect {
     public void controllerAnnotation() {
     }
 
-    @Pointcut("execution(* toby..* (..)) && @target(toby.aop_ltw.controller.HelloAnnotation)")
+    @Pointcut("execution(* toby..* (..)) && @target(toby.aop_ltw.annotation.HelloAnnotation)")
     public void helloAnnotation() {
     }
 
@@ -29,7 +29,7 @@ public class SimpleMonitoringAspect {
     public void controllerAnnotationExactly() {
     }
 
-    @Pointcut("execution(* toby..* (..)) && @args(toby.aop_ltw.controller.HelloAnnotation)")
+    @Pointcut("execution(* toby..* (..)) && @args(toby.aop_ltw.annotation.HelloAnnotation)")
     public void parameterAnnotation() {
     }
 

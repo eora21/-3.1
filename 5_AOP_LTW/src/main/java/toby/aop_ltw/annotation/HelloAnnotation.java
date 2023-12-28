@@ -1,4 +1,4 @@
-package toby.aop_ltw.controller;
+package toby.aop_ltw.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
