@@ -18,27 +18,27 @@ public class SimpleMonitoringAspect {
     }
 
     @Pointcut("execution(* toby..* (..)) && @target(org.springframework.web.bind.annotation.RestController)")
-    public void controllerAnnotation() {
+    private void controllerAnnotation() {
     }
 
     @Pointcut("execution(* toby..* (..)) && @target(toby.aop_ltw.annotation.HelloAnnotation)")
-    public void helloAnnotation() {
+    private void helloAnnotation() {
     }
 
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
-    public void controllerAnnotationExactly() {
+    private void controllerAnnotationExactly() {
     }
 
     @Pointcut("execution(* toby..* (..)) && @args(toby.aop_ltw.annotation.HelloAnnotation)")
-    public void parameterAnnotation() {
+    private void parameterAnnotation() {
     }
 
     @Pointcut("@annotation(toby.aop_ltw.annotation.MethodAnnotation)")
-    public void methodAnnotation() {
+    private void methodAnnotation() {
     }
 
     @Pointcut("bean(*Controller)")
-    public void controllerBean() {
+    private void controllerBean() {
     }
 
     @Around("controllerBean()")
