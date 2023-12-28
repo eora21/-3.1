@@ -37,7 +37,11 @@ public class SimpleMonitoringAspect {
     public void methodAnnotation() {
     }
 
-    @Around("methodAnnotation()")
+    @Pointcut("bean(*Controller)")
+    public void controllerBean() {
+    }
+
+    @Around("controllerBean()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
