@@ -14,10 +14,10 @@ public class SimpleMonitoringAspect {
     }
 
     @Pointcut("this(toby.aop_ltw.controller.HelloController)")
-    private void JDKDynamicProxy() {
+    private void CGLibProxy() {
     }
 
-    @Around("JDKDynamicProxy()")
+    @Around("CGLibProxy()")
     public Object printParametersAndReturnVal(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("before");
         Object ret = pjp.proceed();
