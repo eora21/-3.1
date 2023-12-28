@@ -9,6 +9,11 @@ import toby.aop_ltw.dto.HelloDto;
 public class GreetingController {
     @GetMapping
     public String greeting(@ModelAttribute HelloDto helloDto) {
+        System.out.println();
+        System.out.println("=========================");
+        System.out.println("GreetingController Active");
+        System.out.println("=========================");
+        System.out.println();
         return "Hi";
     }
 }
